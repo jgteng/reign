@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.reign.manager.dao.TaskDao">
+
+    <!--查询所有报警组-->
+    <select id="listTask" resultType="Task">
+        select
+        rtk.id as id,
+        rtk.task_name as taskName,
+        rtk.main_script as mainScript,
+        rtk.task_rule as taskRule,
+        rtk.node_id as nodeId,
+        rtk.node_type as nodeType,
+        rtk.run_node_id as run_node_id,
+        rn.node_name as nodeName,
+        rn1.node_name as runNodeName,
+        rtk.last_run_time as lastRunTime,
+        rtk.next_time as nextTime,
+        rtk.description as description,
+        rtk.created as created,
+        rtk.modified as modified
+        from reign_task rtk
+        LEFT JOIN reign_task_node rn ON rtk.node_id = rn.id
+        LEFT JOIN reign_task_node rn1 ON rtk.run_node_id = rn1.id
+    </select>
+
+    <insert id="addTask" parameterType="Task">
+        <selectKey keyProperty="id" resultType="Long">
+            SELECT @@IDENTITY AS id
+        </selectKey>
+        INSERT INTO reign_task(
+        task_name,
+        main_script,
+        task_rule,
+        last_run_time,
+        next_time,
+        description,
+        created,
+        modified
+        )
+        values
+        (
+        #{taskName},
+        #{mainScript},
+        #{taskRule},
+        #{lastRunTime},
+        #{nextTime},
+        #{description},
+        now(),
+        now()
+        )
+    </insert>
+
+    <select id="countByName" resultType="Long">
+        select count(1) from reign_task where task_name=#{taskName} and disabled!=1
+    </select>
+
+    <select id="getById" resultType="Task">
+        SELECT
+        id as id,
+        task_name as taskName,
+        main_script as mainScript,
+        task_rule as taskRule,
+        last_run_time as lastRunTime,
+        next_time as nextTime,
+        description as description,
+        created as created,
+        modified as modified
+        from reign_task
+        where id=#{taskId};
+    </select>
+
+    <delete id="delTask">
+        DELETE FROM reign_task where id=#{taskId};
+    </delete>
+</mapper>
