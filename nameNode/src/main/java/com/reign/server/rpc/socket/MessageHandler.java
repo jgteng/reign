@@ -16,15 +16,26 @@ public class MessageHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(msg);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(msg.toString());
+        }
+
         JSONObject jsonObject = JSONObject.parseObject(msg.toString());
         jsonObject.put("back", "backMessage");
 
         NTMessageProtocol messageProtocol = JSONObject.toJavaObject(jsonObject, NTMessageProtocol.class);
-        if (messageProtocol.getType().intValue() == MessageTypeConstant.TASK_PULL_TYPE) {
-            String nodeId = ((JSONObject) messageProtocol.getData()).getString("nodeId");
-            System.out.println(nodeId);
+        if (messageProtocol.getType() == null) {
+            LOGGER.error("[Message info error] Can not process message without type");
+            return;
         }
+
+        switch (messageProtocol.getType().intValue()) {
+            case MessageTypeConstant.TASK_PULL_TYPE:
+                String nodeId = ((JSONObject) messageProtocol.getData()).getString("nodeId");
+                System.out.println(nodeId);
+                break;
+        }
+
         ctx.channel().writeAndFlush(jsonObject.toJSONString());
     }
 

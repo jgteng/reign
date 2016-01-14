@@ -24,8 +24,8 @@ public class StartUp {
 
             JSONObject jsonObject = new JSONObject();
 //            jsonObject.put("type", "123");
-            jsonObject.put("msg", "测试数据");
-            nettyClient.sendMessage(jsonObject.toJSONString());
+            jsonObject.put("data", "测试数据");
+//            nettyClient.sendMessage(jsonObject.toJSONString());
 
             taskPullThread = new SimpleScheduleThread("taskPullThread", 10, PullTaskThread.class);
             taskPullThread.start();

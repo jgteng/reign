@@ -7,6 +7,7 @@ import com.reign.server.dao.TaskDao;
 import com.reign.server.rpc.socket.NettyServer;
 import com.reign.server.thread.executors.TaskScanThread;
 import com.reign.server.thread.template.SimpleScheduleThread;
+import com.reign.server.thread.template.WorkThreadControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by ji on 15-9-25.
+ * System Entrance
  */
 public class StartUp {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
@@ -46,5 +48,15 @@ public class StartUp {
             System.exit(-1);
         }
 
+    }
+
+    /**
+     * called before system exit
+     */
+    public void systemExit() {
+        //stop workThread
+        WorkThreadControl.stopWorkThread();
+        //close zk connection,destroy watches
+        AliveCheckZk.close();
     }
 }
