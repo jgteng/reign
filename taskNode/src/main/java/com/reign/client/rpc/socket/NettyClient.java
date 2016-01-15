@@ -26,12 +26,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by ji on 15-9-29.
  */
-public class NettyClient implements MessageClient{
+public class NettyClient implements MessageClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(NettyClient.class);
     private static ChannelFuture channelFuture;
     private static volatile NettyClient nettyClient;
 
-    private NettyClient(){}
+    private NettyClient() {
+    }
 
     public static NettyClient getInstance() {
         if (nettyClient == null) {
@@ -70,17 +71,16 @@ public class NettyClient implements MessageClient{
 
             LOGGER.info("TaskNode Socket Client Start Successfully At Port " + ClientConstant.CLIENT_PORT);
         } catch (Exception e) {
+            if (channelFuture.channel().isActive()) {
+                return;
+            }
             LOGGER.error("Connect to Server failed", e);
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        TimeUnit.SECONDS.sleep(5);
-                        init();
-                    } catch (Exception e) {
-                        LOGGER.error("Connect to Server failed,retry", e);
-                    }
-                }
-            }).start();
+            try {
+                TimeUnit.SECONDS.sleep(5);
+                init();
+            } catch (Exception ex) {
+                LOGGER.error("Connect to Server failed,retry", ex);
+            }
         }
     }
 
@@ -88,7 +88,8 @@ public class NettyClient implements MessageClient{
 
         try {
             if (!channelFuture.channel().isActive()) {
-                throw new RuntimeException("Client Server is Not Connected");
+                LOGGER.error("Client Server is Not Connected,and try to reconnect");
+                init();
             }
             ByteBuf resp = Unpooled.copiedBuffer(message.getBytes());
             ChannelFuture future = channelFuture.channel().writeAndFlush(resp);

@@ -1,11 +1,14 @@
 package com.reign.domain.rpc;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * Created by ji on 15-11-11.
  */
 public class NTMessageProtocol {
     private Integer type;
-    private Object data;
+    private JSONObject data;
 
     public Integer getType() {
         return type;
@@ -19,7 +22,12 @@ public class NTMessageProtocol {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(JSONObject data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

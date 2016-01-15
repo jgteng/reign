@@ -13,4 +13,8 @@ public class MessageTypeConstant {
 
     /*******Task相关以3开头*******/
     public static final int TASK_PULL_TYPE = 301;
+
+    /******* 返回给TaskNode的消息都是4位 *************/
+    public static final int TASK_PULL_RESULT_TYPE=3101;
+
 }
