@@ -18,7 +18,7 @@ public class NTMessageProtocol {
         this.type = type;
     }
 
-    public Object getData() {
+    public JSONObject getData() {
         return data;
     }
 
