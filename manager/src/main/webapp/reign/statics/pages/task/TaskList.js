@@ -2,7 +2,6 @@
  * Created by ji on 15-10-29.
  */
 taskListApp.controller('taskListCtrl', function ($scope) {
-
     $scope.queryTaskList = function () {
         $scope.grid_selector = $('#grid-table');
         $scope.pager_selector = $('#grid-pager');
@@ -10,7 +9,8 @@ taskListApp.controller('taskListCtrl', function ($scope) {
             url: '/task/listTask',
             datatype: 'json',
             height: 'auto',
-            colNames: ['ID', '任务名称', '执行脚本', '所属节点', '节点类型', '创建时间', '状态', '上次运行时间', '下次运行时间', '运行节点', '任务描述', '节点ID', '运行节点ID'],
+            colNames: ['ID', '任务名称', '执行脚本', '所属节点', '节点类型', '创建时间', '状态', '上次运行时间', '下次运行时间', '运行节点', '任务描述', '节点ID', '运行节点ID', '启用状态',
+            'statusHide','disableHide'],
             colModel: [
                 {name: 'id', index: 'id', width: 50, fixed: false},
                 {
@@ -39,9 +39,7 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                 {
                     name: 'status', index: 'status', width: 80, fixed: false,
                     formatter: function (param1) {
-                        if (!param1)
-                            return ''
-                        else if (param1 == 0)
+                        if (param1 == 0)
                             return '正常'
                         else if (param1 == 1)
                             return '停用'
@@ -54,7 +52,20 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                 {name: 'runNodeName', index: 'run_node_id', width: 250, fixed: false},
                 {name: 'description', index: 'description'},
                 {name: 'nodeId', index: 'node_id', width: 50, hidden: true, fixed: false},
-                {name: 'runNodeId', index: 'run_node_id', width: 50, hidden: true, fixed: false}
+                {name: 'runNodeId', index: 'run_node_id', width: 50, hidden: true, fixed: false},
+                {
+                    name: 'disabled', index: 'disabled',
+                    formatter: function (param) {
+                        if (param == 0)
+                            return '启用'
+                        else if (param == 1)
+                            return '禁用'
+                        else
+                            return param
+                    }
+                },
+                {name: 'status',hidden: true},
+                {name:'disabled',hidden: true}
             ],
             viewrecords: true,
             rowNum: 20,
@@ -65,6 +76,11 @@ taskListApp.controller('taskListCtrl', function ($scope) {
             loadComplete: function () {
                 var table = this;
                 updatePagerIcons(table);
+            },
+            onSelectRow: function (id) {
+                var rowData = $scope.grid_selector.jqGrid("getRowData", id);//根据上面的id获得本行的所有数据
+                var status = rowData.status;
+                var disabled = rowData.disabled;
             }
         }).jqGrid('navGrid', '#grid-pager', {
             refresh: true,
@@ -95,6 +111,30 @@ taskListApp.controller('taskListCtrl', function ($scope) {
 
     $scope.add = function () {
         window.open("/task/to_add")
+    }
+
+    $scope.edit = function () {
+        var id = $scope.grid_selector.jqGrid('getGridParam', 'selrow');//根据点击行获得点击行的id（id为jsonReader: {id: "id" },）
+        var rowData = $scope.grid_selector.jqGrid("getRowData", id);//根据上面的id获得本行的所有数据
+        var val = rowData.id; //获得制定列的值 （auditStatus 为colModel的name）
+        window.open("/task/to_edit?id=" + val);
+    };
+
+    $scope.disable = function () {
+        var id = $scope.grid_selector.jqGrid('getGridParam', 'selrow');//根据点击行获得点击行的id（id为jsonReader: {id: "id" },）
+        var rowData = $scope.grid_selector.jqGrid("getRowData", id);//根据上面的id获得本行的所有数据
+        var val = rowData.id; //获得制定列的值 （auditStatus 为colModel的name）
+        alert(rowData.taskName);
+
+        //$.ajax({
+        //    url: "/task/add",
+        //    type: "POST",
+        //    dataType: "JSON",
+        //    data: {"taskName":$scope.taskName},
+        //    success:function(data){
+        //        alert("success")
+        //    }
+        //});
     }
 
     $scope.del = function () {

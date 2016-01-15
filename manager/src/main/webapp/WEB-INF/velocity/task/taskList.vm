@@ -49,15 +49,23 @@
                         <i class="icon-plus align-bottom bigger-110"></i>
                         新增
                     </button>
-                    <button class="btn btn-sm" ng-click="edit()">
+                    <button class="btn btn-sm" ng-click="edit()" disabled">
                         <i class="icon-pencil align-bottom bigger-110"></i>
                         编辑
                     </button>
-                    <button class="btn btn-sm" ng-click="del()">
+                    <button class="btn btn-sm" ng-click="disable()" disabled>
+                        <i class="icon-off" align-bottom bigger-110"></i>
+                        禁用
+                    </button>
+                    <button class="btn btn-sm" ng-click="edit()" disabled>
+                        <i class="icon-pencil align-bottom bigger-110"></i>
+                        编辑
+                    </button>
+                    <button class="btn btn-sm" ng-click="del()" disabled>
                         <i class="icon-remove align-bottom bigger-110"></i>
                         删除
                     </button>
-                    <button class="btn btn-sm" ng-click="rerun()">
+                    <button class="btn btn-sm" ng-click="rerun()" disabled>
                         <i class="icon-refresh align-bottom bigger-110"></i>
                         重跑
                     </button>

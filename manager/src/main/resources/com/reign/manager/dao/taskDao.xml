@@ -15,11 +15,13 @@
         rtk.run_node_id as run_node_id,
         rn.node_name as nodeName,
         rn1.node_name as runNodeName,
+        rtk.status as status,
         rtk.last_run_time as lastRunTime,
         rtk.next_time as nextTime,
         rtk.description as description,
         rtk.created as created,
-        rtk.modified as modified
+        rtk.modified as modified,
+        rtk.disabled as disabled
         from reign_task rtk
         LEFT JOIN reign_task_node rn ON rtk.node_id = rn.id
         LEFT JOIN reign_task_node rn1 ON rtk.run_node_id = rn1.id
