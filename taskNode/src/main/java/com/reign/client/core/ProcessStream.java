@@ -23,10 +23,14 @@ public class ProcessStream {
 
 
     public void startReadOutputStream() {
-        StreamWatcher outputWatcher = new StreamWatcher(process.getInputStream(),"OUTPUT",process);
-        StreamWatcher errorWatcher = new StreamWatcher(process.getErrorStream(), "ERROR", process);
+        StreamWatcher outputWatcher = new StreamWatcher(process.getInputStream(),"OUTPUT",this);
+        StreamWatcher errorWatcher = new StreamWatcher(process.getErrorStream(), "ERROR", this);
         new Thread(outputWatcher, "process output watcher").start();
         new Thread(errorWatcher, "process error watcher").start();
+    }
+
+    public RunTimeBean getRunTimeBean() {
+        return runTimeBean;
     }
 }
 
@@ -36,13 +40,13 @@ class StreamWatcher implements Runnable{
     private InputStream inputStream;
     private String type;
     private BufferedReader bufferedReader = null;
-    private Process process;
+    private ProcessStream processStream;
 
 
-    public StreamWatcher(InputStream inputStream, String type,Process process) {
+    public StreamWatcher(InputStream inputStream, String type,ProcessStream processStream) {
         this.inputStream = inputStream;
         this.type = type;
-        this.process = process;
+        this.processStream = processStream;
     }
 
     public void run() {
@@ -51,7 +55,7 @@ class StreamWatcher implements Runnable{
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                LOGGER.debug(line);
+                LOGGER.debug("[" + processStream.getRunTimeBean().getTaskId() + "]" + line);
 //                ps.createStreamFile(line);
             }
         } catch (Exception e) {

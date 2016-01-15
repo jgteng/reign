@@ -31,14 +31,17 @@ public class TaskRunner implements Runnable {
         int exitVal = -1;
         try {
             List<String> command = new ArrayList<String>();
-            command.add("java");
-            command.add("-jar");
-            command.add("test.jar");
-            command.add(JSON.toJSONString(runTimeBean));
+//            command.add("java");
+//            command.add("-jar");
+//            command.add("test.jar");
+//            command.add(JSON.toJSONString(runTimeBean));
+
+
+            command.add("/bin/sh");
+            command.add("-c");
+            command.add(" sh /tmp/test.sh");
 
             Process process = null;
-
-            ProcessStream processStream = new ProcessStream(process, runTimeBean);
 
             //build the process. The runTimeBean information is passed into the process in param.
             ProcessBuilder processBuilder = new ProcessBuilder(command);
@@ -55,11 +58,13 @@ public class TaskRunner implements Runnable {
             int pid = this.getProcessId(process);
             runTimeBean.setPid(pid);
 
+            ProcessStream processStream = new ProcessStream(process, runTimeBean);
             //start read output and error stream.
             processStream.startReadOutputStream();
 
             exitVal = process.waitFor();
 
+            Thread.sleep(5000L);
         } catch (Throwable t) {
             LOGGER.error("[TaskRunner => startProcess] Start Task Runner Process Exception", t);
             exitVal = 1;

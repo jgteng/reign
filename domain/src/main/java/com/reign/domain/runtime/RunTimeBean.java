@@ -7,12 +7,30 @@ import java.util.Map;
  */
 public class RunTimeBean {
 
+    private Long taskId;
+    private String taskName;
     private String mainScript;
     private String ScriptPath;
+    private String logId;
     private Map<String, String> env;
 
     private Integer pid;
 
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
     public String getMainScript() {
         return mainScript;
@@ -28,6 +46,14 @@ public class RunTimeBean {
 
     public void setScriptPath(String scriptPath) {
         ScriptPath = scriptPath;
+    }
+
+    public String getLogId() {
+        return logId;
+    }
+
+    public void setLogId(String logId) {
+        this.logId = logId;
     }
 
     public Map<String, String> getEnv() {
