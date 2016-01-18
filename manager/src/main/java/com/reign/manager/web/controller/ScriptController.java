@@ -5,6 +5,7 @@ import com.reign.manager.service.script.ScriptService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +19,18 @@ import java.io.OutputStream;
 /**
  * Created by ji on 15-12-10.
  */
+@Controller
 @RequestMapping("/reign/script/")
 public class ScriptController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptController.class);
 
     @Autowired
     private ScriptService scriptService;
+
+    @RequestMapping("index")
+    public String toIndex() {
+        return "script/scriptList";
+    }
 
     @RequestMapping("upload")
     @ResponseBody

@@ -14,16 +14,20 @@
     <link rel="stylesheet" href="/reign/statics/ace/css/font-awesome.min.css">
 
 
+    <script>
+        var selected_menu_id = '$!{selected_menu_id}';
+    </script>
     <script type="text/javascript" src="/reign/statics/angular.min.js"></script>
     <script type="text/javascript" src="/reign/statics/ace/js/ace.min.js"></script>
     <script type="text/javascript" src="/reign/statics/ace/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/reign/statics/pages/layout.js"></script>
 
 </head>
 
 <body>
-#parse("left_menu.vm")
 <div class="main-container" id="main-container">
     <div class="main-container-inner">
+        #parse("left_menu.vm")
         $screen_content
     </div>
 </div>

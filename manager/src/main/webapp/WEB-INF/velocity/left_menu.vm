@@ -1,21 +1,45 @@
 <div class="sidebar" id="sidebar">
-    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-        #*<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-            <button class="btn btn-success">
-                <i class="icon-signal"></i>
-            </button>
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
 
-            <button class="btn btn-info">
-                <i class="icon-pencil"></i>
-            </button>
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">
+                    <i class="icon-dashboard bigger-130"></i>
+                    <span class="menu-text" style="font-size: large"> 菜单栏 </span>
+                </a>
+            </li>
+        </ul>
+        <!-- .breadcrumb -->
 
-            <button class="btn btn-warning">
-                <i class="icon-group"></i>
-            </button>
 
-            <button class="btn btn-danger">
-                <i class="icon-cogs"></i>
-            </button>
-        </div>*#
+        <!-- #nav-search -->
+    </div>
+
+    <div>
+        <ul class="nav nav-list">
+            <li id="menu_task_list">
+                <a href="/reign/task/index.html">
+                    <i class="icon-list"></i>
+                    <span class="menu-text"> 任务列表 </span>
+                </a>
+            </li>
+
+            <li  id="menu_script_list">
+                <a href="/reign/script/index.html">
+                    <i class="icon-list-alt"></i>
+                    <span class="menu-text"> 脚本管理 $selected_menu_id</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.nav-list -->
+    <div class="sidebar-collapse" id="sidebar-collapse">
+        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
     </div>
 </div>

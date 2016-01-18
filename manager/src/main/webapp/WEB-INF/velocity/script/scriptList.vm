@@ -1,6 +1,6 @@
 #set($page_title="TASK")
-#set($selected_menu_id="menu_task_list")
-<div class="main-content" ng-app="taskListApp" ng-controller="taskListCtrl">
+#set($selected_menu_id="menu_script_list")
+<div class="main-content" ng-app="scriptListApp" ng-controller="scriptListCtrl">
     <div class="breadcrumbs" id="breadcrumbs">
         <script type="text/javascript">
             try {
@@ -15,9 +15,9 @@
                 <a href="#">首页</a>
             </li>
             <li>
-                <a href="#">任务管理</a>
+                <a href="#">脚本管理</a>
             </li>
-            <li class="active">任务列表</li>
+            <li class="active">脚本列表</li>
         </ul>
         <!-- .breadcrumb -->
 
@@ -35,10 +35,10 @@
     <div class="page-content">
         <div class="page-header">
             <h1>
-                任务管理
+                脚本管理
                 <small>
                     <i class="icon-double-angle-right"></i>
-                    任务列表
+                    脚本列表
                 </small>
             </h1>
         </div>
@@ -56,21 +56,9 @@
                                 <i class="icon-pencil align-bottom bigger-110"></i>
                                 编辑
                             </button>
-                            <button class="btn btn-sm" ng-click="disable()" disabled>
-                                <i class="icon-ban-circle" align-bottom bigger-110"></i>
-                                禁用
-                            </button>
-                            <button class="btn btn-sm" ng-click="enable()" disabled>
-                                <i class="icon-off align-bottom bigger-110"></i>
-                                启用
-                            </button>
-                            <button class="btn btn-sm" ng-click="del()">
+                            <button class="btn btn-sm" ng-click="del()" disabled>
                                 <i class="icon-remove align-bottom bigger-110"></i>
                                 删除
-                            </button>
-                            <button class="btn btn-sm" ng-click="rerun()" disabled>
-                                <i class="icon-refresh align-bottom bigger-110"></i>
-                                重跑
                             </button>
                         </p>
                     </div>
@@ -95,11 +83,10 @@
         <!-- #dialog-confirm -->
     </div>
 </div>
-
 #define($javascriptBlock)
 <script type="text/javascript" src="/reign/statics/jquery.form.min.js"></script>
 <script type="text/javascript" src="/reign/statics/pages/reignApps.js"></script>
-<script type="text/javascript" src="/reign/statics/pages/task/TaskList.js"></script>
+<script type="text/javascript" src="/reign/statics/pages/script/scriptList.js"></script>
 <script type="text/javascript" src="/reign/statics/ace/js/jqGrid/jquery.jqGrid.min.js"></script>
 <script type="text/javascript" src="/reign/statics/ace/js/jqGrid/i18n/grid.locale-en.js"></script>
 <script type="text/javascript" src="/reign/statics/ace/js/jquery-ui-1.10.3.full.min.js"></script>

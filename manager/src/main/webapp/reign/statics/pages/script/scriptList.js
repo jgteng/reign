@@ -1,7 +1,7 @@
 /**
  * Created by ji on 15-10-29.
  */
-taskListApp.controller('taskListCtrl', function ($scope) {
+scriptListApp.controller('scriptListCtrl', function ($scope) {
     $scope.queryTaskList = function () {
         $scope.grid_selector = $('#grid-table');
         $scope.pager_selector = $('#grid-pager');
@@ -85,6 +85,7 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                 if(disabled==1) {
                     $('btn_eidt').addClass("disabled");
                 }
+
             }
         }).jqGrid('navGrid', '#grid-pager', {
             refresh: true,

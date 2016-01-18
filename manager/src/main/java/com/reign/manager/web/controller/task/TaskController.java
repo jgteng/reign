@@ -27,7 +27,7 @@ import java.util.List;
  * Created by ji on 15-10-15.
  */
 @Controller
-@RequestMapping("/task/")
+@RequestMapping("/reign/task/")
 public class TaskController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 

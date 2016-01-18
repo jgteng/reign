@@ -1,6 +1,8 @@
 /**
  * Created by ji on 15-10-19.
  */
-var taskAddApp = angular.module('taskAddApp',[])
+var taskAddApp = angular.module('taskAddApp', [])
 
-var taskListApp = angular.module('taskListApp',[])
+var taskListApp = angular.module('taskListApp', [])
+
+var scriptListApp = angular.module('scriptListApp', [])
