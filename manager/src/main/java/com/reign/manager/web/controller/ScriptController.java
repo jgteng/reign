@@ -1,7 +1,15 @@
 package com.reign.manager.web.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.reign.domain.script.Script;
+import com.reign.domain.task.Task;
+import com.reign.manager.exception.ReignParamException;
 import com.reign.manager.service.script.ScriptService;
+import com.reign.manager.util.PageResult;
+import com.reign.manager.util.RequestUtil;
+import com.reign.manager.web.ResponseCodeConstants;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.OutputStream;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ji on 15-12-10.
@@ -30,6 +40,36 @@ public class ScriptController {
     @RequestMapping("index")
     public String toIndex() {
         return "script/scriptList";
+    }
+
+    @ResponseBody
+    @RequestMapping("listScript")
+    public JSONObject listTask(String paramContent) {
+        PageResult response = new PageResult();
+        try {
+            Script script = (Script) RequestUtil.toClassBean(paramContent, Script.class);
+            List<Script> scriptList = scriptService.listScript(script);
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < 10; i++) {
+                JSONObject tmpObj = new JSONObject();
+                array.add(tmpObj);
+                tmpObj.put("id", i);
+                tmpObj.put("taskName", "name" + i);
+                tmpObj.put("mainScript", "mainScript" + i);
+                tmpObj.put("created", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            }
+            response.setTotalCount(11L);
+            response.setList(scriptList);
+        } catch (ReignParamException pe) {
+            response.setCode(pe.getCode());
+            response.setMessage(pe.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("查询脚本列表异常", e);
+            response.setCode(ResponseCodeConstants.SYS_ERROR_CODE);
+            response.setMessage(e.getMessage());
+        }
+
+        return response.toJson();
     }
 
     @RequestMapping("upload")

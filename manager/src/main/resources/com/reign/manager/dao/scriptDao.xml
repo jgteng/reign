@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.reign.manager.dao.ScriptDao">
+
+    <!--查询所有报警组-->
+    <select id="listScript" resultType="Script">
+        SELECT
+        rct.id AS id,
+        rct.scpt_name AS scptName,
+        rct.scpt_type as scptType,
+        rct.scpt_path as scptPath,
+        rct.scpt_version as scptVersion,
+        rct.description as description,
+        rct.created as created,
+        rct.modified as modified
+        from reign_script rct
+    </select>
+
+</mapper>

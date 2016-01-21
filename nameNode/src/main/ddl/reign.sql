@@ -54,3 +54,37 @@ CREATE TABLE `reign_task_run_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- ----------------------------
+-- Table structure for reign_script
+-- ----------------------------
+DROP TABLE IF EXISTS `reign_script`;
+CREATE TABLE `reign_script` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `scpt_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `scpt_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `scpt_path` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `scpt_version` int(11) NOT NULL,
+  `description` varchar(1024) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+- ----------------------------
+-- Table structure for reign_script_old_version
+-- ----------------------------
+DROP TABLE IF EXISTS `reign_script_old_version`;
+CREATE TABLE `reign_script_old_version` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `scpt_id` bigint(20) NOT NULL,
+  `scpt_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `scpt_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `scpt_path` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `scpt_version` int(11) NOT NULL,
+  `description` varchar(1024) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
