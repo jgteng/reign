@@ -133,6 +133,22 @@ public class TaskController {
         return "task/taskInfo";
     }
 
+    @RequestMapping("to_edit")
+    public String toEdit(Model model, Task paramTask) {
+        try {
+            if (paramTask.getId() == null) {
+                throw new ReignParamException(ResponseCodeConstants.PARAM_ERROR_CODE, "Task Id is null.");
+            }
+            Task task = taskService.getById(paramTask.getId());
+            model.addAttribute("task", task);
+        } catch (ReignBaseException rb) {
+            LOGGER.error(rb.getCode() + "," + rb.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("【Task get】failed.", e);
+        }
+        return "task/taskAdd";
+    }
+
     @RequestMapping("del")
     @ResponseBody
     public JSONObject delTask(Task paramTask) {

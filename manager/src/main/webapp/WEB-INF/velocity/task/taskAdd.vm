@@ -6,6 +6,7 @@
                 ace.settings.check('breadcrumbs', 'fixed')
             } catch (e) {
             }
+            var rootNode = $!data
         </script>
 
         <ul class="breadcrumb">
@@ -37,7 +38,11 @@
                 任务管理
                 <small>
                     <i class="icon-double-angle-right"></i>
-                    添加任务
+                    #if($!task.id)
+                        编辑任务
+                    #else
+                        添加任务
+                    #end
                 </small>
             </h1>
         </div>
@@ -45,28 +50,30 @@
         <div class="row">
             <div class="col-xs-12">
                 <form class="form-horizontal" role="form" id="taskForm">
+                    <input type="text" name="id" id="id_task_id" value="$!task.id" hidden>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="id_task_name"> 任务名称 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" name="taskName" id="id_task_name" ng-model="taskName"
-                                   class="col-xs-10 col-sm-5">
+                            <input type="text" name="taskName" id="id_task_name"
+                                   class="col-xs-10 col-sm-5" value="$!task.taskName">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="id_task_main_script"> 任务脚本 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" name="mainScript" id="id_task_main_script" ng-model="mainScript"
-                                   class="col-xs-10 col-sm-5">
+                            <input type="text" name="mainScript" id="id_task_main_script"
+                                   class="col-xs-10 col-sm-5" value="$!task.mainScript">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="id_task_rule"> 运行规则 </label>
 
                         <div class="col-sm-9">
-                            <input type="text" name="taskRule" id="id_task_rule" ng-model="taskRule"
-                                   class="col-xs-10 col-sm-5">
+                            <input type="text" name="taskRule" id="id_task_rule"
+                                   class="col-xs-10 col-sm-5" value="$!task.taskRule">
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,7 +81,8 @@
 
                         <div class="col-sm-9">
                             <textarea class="col-xs-10 col-sm-5" style="height: 100px;" name="description"
-                                      id="id_description" ng-model="description" placeholder="任务描述"></textarea>
+                                      id="id_description"
+                                      placeholder="任务描述">$!task.description</textarea>
                         </div>
                     </div>
                     <div class="clearfix form-actions">

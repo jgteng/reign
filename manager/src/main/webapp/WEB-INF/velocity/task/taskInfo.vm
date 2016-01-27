@@ -50,7 +50,7 @@
 
                         <div class="col-sm-9">
                             <input type="text" name="taskName" id="id_task_name" ng-model="taskName"
-                                   class="col-xs-10 col-sm-5" value="$!task.taskName">
+                                   class="col-xs-10 col-sm-5" value="$!task.taskName" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -58,7 +58,7 @@
 
                         <div class="col-sm-9">
                             <input type="text" name="mainScript" id="id_task_main_script" ng-model="mainScript"
-                                   class="col-xs-10 col-sm-5" value="$!task.mainScript">
+                                   class="col-xs-10 col-sm-5" value="$!task.mainScript" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -66,7 +66,7 @@
 
                         <div class="col-sm-9">
                             <input type="text" name="taskRule" id="id_task_rule" ng-model="taskRule"
-                                   class="col-xs-10 col-sm-5" value="$!task.taskRule">
+                                   class="col-xs-10 col-sm-5" value="$!task.taskRule" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,7 +74,7 @@
 
                         <div class="col-sm-9">
                             <textarea class="col-xs-10 col-sm-5" style="height: 100px;" name="description"
-                                      id="id_description" ng-model="description" placeholder="任务描述">$!task.description</textarea>
+                                      id="id_description" ng-model="description" placeholder="任务描述" disabled>$!task.description</textarea>
                         </div>
                     </div>
                 </form>

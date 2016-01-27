@@ -11,21 +11,29 @@ import java.util.List;
 public interface TaskDao {
     List<Task> listTask();
 
+    /**
+     * insert a new task
+     * @param paramTask
+     */
     void addTask(Task paramTask);
 
+    /**
+     * update task info
+     * @param paramTask
+     */
     void modifyTask(Task paramTask);
 
     Long countByName(@Param("taskName") String taskName);
 
     /**
-     * 根据id查询
+     * query task by id
      * @param taskId
      * @return
      */
     Task getById(@Param("taskId")Long taskId);
 
     /**
-     * 根据id删除任务
+     * delete task by id
      * @param taskId
      */
     void delTask(@Param("taskId")Long taskId);

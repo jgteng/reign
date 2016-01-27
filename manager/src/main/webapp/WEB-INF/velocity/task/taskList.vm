@@ -48,27 +48,27 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <p>
-                            <button class="btn btn-sm" ng-click="add()">
+                            <button id="btn_add" class="btn btn-sm" ng-click="add()">
                                 <i class="icon-plus align-bottom bigger-110"></i>
                                 新增
                             </button>
-                            <button id="btn_eidt" class="btn btn-sm" ng-click="edit()">
+                            <button id="btn_edit" class="btn btn-sm" ng-click="edit()" disabled>
                                 <i class="icon-pencil align-bottom bigger-110"></i>
                                 编辑
                             </button>
-                            <button class="btn btn-sm" ng-click="disable()" disabled>
+                            <button id="btn_disable" class="btn btn-sm" ng-click="disableTask()" disabled>
                                 <i class="icon-ban-circle" align-bottom bigger-110"></i>
                                 禁用
                             </button>
-                            <button class="btn btn-sm" ng-click="enable()" disabled>
+                            <button id="btn_enable" class="btn btn-sm" ng-click="enableTask()" disabled>
                                 <i class="icon-off align-bottom bigger-110"></i>
                                 启用
                             </button>
-                            <button class="btn btn-sm" ng-click="del()">
+                            <button id="btn_del" class="btn btn-sm" ng-click="del()" disabled>
                                 <i class="icon-remove align-bottom bigger-110"></i>
                                 删除
                             </button>
-                            <button class="btn btn-sm" ng-click="rerun()" disabled>
+                            <button id="btn_rerun" class="btn btn-sm" ng-click="rerun()" disabled>
                                 <i class="icon-refresh align-bottom bigger-110"></i>
                                 重跑
                             </button>

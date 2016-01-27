@@ -43,8 +43,11 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                             return '空闲'
                         else if (param1 == 1)
                             return '队列中'
-                        else
-                            return param1
+                        else if (param1 == 2)
+                            return '运行中'
+                        else if (param1 == 3)
+                            return '失败'
+                        return param1
                     }
                 },
                 {name: 'lastRunTime', index: 'last_run_time', width: 150, fixed: false},
@@ -82,8 +85,21 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                 var status = rowData.status;
                 var disabled = rowData.disabled;
 
-                if(disabled==1) {
-                    $('btn_eidt').addClass("disabled");
+                $('#btn_edit,#btn_del').enable();
+
+                if (disabled == 1) {
+                    $('#btn_enable').enable();
+                    $('#btn_disable').attr({"disabled": "disabled"});
+                } else {
+                    $('#btn_disable').enable();
+                    $('#btn_enable').attr({"disabled": "disabled"});
+                }
+
+                //空闲或者失败,则任务可以重跑
+                if (status == 0 || status == 3) {
+                    $('#btn_rerun').enable();
+                } else {
+                    $('#btn_rurun').attr({"disabled": "disabled"});
                 }
             }
         }).jqGrid('navGrid', '#grid-pager', {
@@ -125,7 +141,7 @@ taskListApp.controller('taskListCtrl', function ($scope) {
         window.open("/reign/task/to_edit?id=" + val);
     };
 
-    $scope.disable = function () {
+    $scope.disableTask = function () {
         var id = $scope.grid_selector.jqGrid('getGridParam', 'selrow');//根据点击行获得点击行的id（id为jsonReader: {id: "id" },）
         var rowData = $scope.grid_selector.jqGrid("getRowData", id);//根据上面的id获得本行的所有数据
         var val = rowData.id; //获得制定列的值 （auditStatus 为colModel的name）

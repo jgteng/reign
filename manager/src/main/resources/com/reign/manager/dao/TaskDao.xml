@@ -76,4 +76,19 @@
     <delete id="delTask">
         DELETE FROM reign_task where id=#{taskId};
     </delete>
+
+
+    <update id="modifyTask" parameterType="Task">
+        UPDATE
+        reign_task
+        SET
+        task_name=#{taskName},
+        main_script=#{mainScript},
+        task_rule=#{taskRule},
+        next_time=#{nextTime},
+        description=#{description},
+        modified=now()
+        WHERE
+        id=#{id}
+    </update>
 </mapper>

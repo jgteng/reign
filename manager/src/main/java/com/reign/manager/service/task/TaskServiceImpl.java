@@ -30,10 +30,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public Long saveTask(Task paramTask) throws Exception {
-        if (paramTask.getId() == null) {
-            Date nextTime = CronExpressionUtil.getNextTime(paramTask.getTaskRule());
-            paramTask.setNextTime(nextTime);
+        Date nextTime = CronExpressionUtil.getNextTime(paramTask.getTaskRule());
+        paramTask.setNextTime(nextTime);
 
+        if (paramTask.getId() == null) {
             Long count = taskDao.countByName(paramTask.getTaskName());
             if (count >= 1) {
                 throw new ReignManagerException(ResponseCodeConstants.DUPLICATE_ERROR_CODE, "存在同名任务");
