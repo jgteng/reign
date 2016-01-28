@@ -6,4 +6,12 @@ package com.reign.component.constants;
 public class CoreConstant {
     public static final String NODE_TYPE_PHYSICAL = "physical";
     public static final String NODE_TYPE_VIRTUAL = "virtual";
+
+
+    /*** task status start**/
+    public static final int TASK_STATUS_WAIT = 0;
+    public static final int TASK_STATUS_QUEUE = 1;
+    public static final int TASK_STATUS_RUN = 2;
+    public static final int TASK_STATUS_FAIL = 3;
+    /*** task status end **/
 }

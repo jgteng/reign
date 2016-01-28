@@ -7,6 +7,12 @@ import com.reign.server.domain.CacheTaskNodeInfo;
  */
 public class TaskNodeDao {
 
+    /**
+     * query taskNode info from db by id
+     * @param nodeId
+     * @return
+     * @throws Exception
+     */
     public CacheTaskNodeInfo getTaskNodeById(Long nodeId) throws Exception {
         return SqlMapperManager.getSqlSession().selectOne("getTaskNodeById", nodeId);
     }

@@ -11,8 +11,10 @@ import java.util.List;
 public class TaskDao {
 
     public List<Task> selectTaskList() {
-
         return SqlMapperManager.getSqlSession().selectList("selectTaskList");
     }
 
+    public int updateTaskToQueue(Task task) {
+        return SqlMapperManager.getSqlSession().update("updateTaskToQueue", task);
+    }
 }

@@ -14,6 +14,7 @@
             rtk.node_id as nodeId,
             rtk.node_type as nodeType,
             rtn.node_name as nodeName,
+            rtk.run_node_id as runNodeId,
             rtk.last_run_time as lastRunTime,
             rtk.next_time as nextTime,
             rtk.description as description,
@@ -29,4 +30,15 @@
         INSERT INTO reign_task (task_name,main_script,task_rule,status,last_run_time,next_time,description,created,modified)
         values(#{taskName},#{mainScript},#{taskRule},#{status},#{lastRunTime},#{nextTime},#{description},now(),now());
     </insert>
+
+    <update id="updateTaskToQueue" parameterType="Task">
+        UPDATE
+        reign_task
+        SET
+        run_node_id=#{runNodeId},
+        last_run_time=#{lastRunTime},
+        `status`=#{status},
+        next_time=#{nextTime}
+        where id=#{id};
+    </update>
 </mapper>

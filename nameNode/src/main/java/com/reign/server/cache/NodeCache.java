@@ -105,13 +105,11 @@ public class NodeCache {
      * @return
      */
     public int getTaskCountByNodeId(Long nodeId) {
-        synchronized (_NODE_TASK_CACHE) {
-            Set<Long> tasks = _NODE_TASK_CACHE.get(nodeId);
-            if (tasks == null) {
-                return 0;
-            }
-            return tasks.size();
+        Set<Long> tasks = _NODE_TASK_CACHE.get(nodeId);
+        if (tasks == null) {
+            return 0;
         }
+        return tasks.size();
     }
 
 }

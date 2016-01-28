@@ -4,23 +4,26 @@ import java.util.Date;
 
 /**
  * Created by ji on 15-9-28.
- * 任务运行节点(机器)
+ * TaskNode Info
  */
 public class TaskNode {
 
-    //主键
+    //primary key
     private Long id;
 
-    //节点名称
+    //taskNode name
     private String nodeName;
 
-    //ip地址
+    //ip address
     private String ip;
 
-    //创建时间
+    //max number than can be run on this node concurrency
+    private Integer taskLimit;
+
+    //create time
     private Date created;
 
-    //描述
+    //description
     private String description;
 
     public Long getId() {
@@ -45,6 +48,14 @@ public class TaskNode {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public Integer getTaskLimit() {
+        return taskLimit;
+    }
+
+    public void setTaskLimit(Integer taskLimit) {
+        this.taskLimit = taskLimit;
     }
 
     public Date getCreated() {

@@ -50,7 +50,7 @@ public class Task extends CommonBean {
     //下次运行时间
     private Date nextTime;
 
-    //任务状态
+    //任务状态(0:wait,1:queue,2:running,3:fail)
     private Integer status;
 
     //是否禁用.1:已禁用
