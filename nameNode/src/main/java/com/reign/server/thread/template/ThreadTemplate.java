@@ -7,7 +7,7 @@ import org.quartz.JobExecutionException;
 
 /**
  * Created by ji on 15-9-25.
- * 模板类,定义线程执行逻辑,可控制是否执行
+ * You can define schedule thread work by using this ThreadTemplate
  */
 public abstract class ThreadTemplate implements Job {
 

@@ -1,5 +1,7 @@
 package com.reign.server.cache;
 
+import com.reign.server.dao.TaskNodeDao;
+import com.reign.server.domain.CacheTaskNodeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NodeCache {
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeCache.class);
 
-    private static final ConcurrentHashMap<String, Set<Long>> nodeTaskCache = new ConcurrentHashMap<String, Set<Long>>();
+    private static final TaskNodeDao taskNodeDao = new TaskNodeDao();
+
+    private static final long NODE_TIME_OUT = 60 * 1000;
+
+    private static final ConcurrentHashMap<Long, CacheTaskNodeInfo> _NODE_CACHE = new ConcurrentHashMap<Long, CacheTaskNodeInfo>();
+
+    private static final ConcurrentHashMap<Long, Set<Long>> _NODE_TASK_CACHE = new ConcurrentHashMap<Long, Set<Long>>();
 
     private static final NodeCache _INSTANCE = new NodeCache();
 
@@ -24,33 +32,81 @@ public class NodeCache {
         return _INSTANCE;
     }
 
-    public void addTask(String nodeName, Long taskId) {
-        synchronized (nodeTaskCache) {
-            Set<Long> tasks = nodeTaskCache.get(nodeName);
+    /**
+     * get nodeInfo from cache.
+     * Get from db while node info in cache is timeout
+     *
+     * @param nodeId
+     * @return
+     */
+    public CacheTaskNodeInfo getNode(Long nodeId) {
+        CacheTaskNodeInfo result = null;
+        try {
+            CacheTaskNodeInfo nodeInfo = _NODE_CACHE.get(nodeId);
+            if (nodeInfo == null || nodeInfo.getCacheTime() == null || ((System.currentTimeMillis() - nodeInfo.getCacheTime().intValue()) > NODE_TIME_OUT)) {
+                nodeInfo = taskNodeDao.getTaskNodeById(nodeId);
+            }
+            if (nodeInfo != null) {
+                _NODE_CACHE.put(nodeInfo.getId(), nodeInfo);
+            }
+            result = nodeInfo;
+        } catch (Exception e) {
+            LOGGER.error("Get taskNodeInfo from NodeCache error,[ taskNodeId:{} ]", nodeId, e);
+        }
+        return result;
+    }
+
+    /**
+     * Add task to node running map
+     *
+     * @param nodeId
+     * @param taskId
+     */
+    public void addTask(Long nodeId, Long taskId) {
+        synchronized (_NODE_TASK_CACHE) {
+            Set<Long> tasks = _NODE_TASK_CACHE.get(nodeId);
             if (tasks == null) {
                 tasks = new HashSet<Long>();
-                nodeTaskCache.put(nodeName, tasks);
+                _NODE_TASK_CACHE.put(nodeId, tasks);
             }
             tasks.add(taskId);
         }
     }
 
-    public void removeTask(String nodeName, Long taskId) {
-        synchronized (nodeTaskCache) {
-            Set<Long> tasks = nodeTaskCache.get(nodeName);
+    /**
+     * remove task from node running map
+     *
+     * @param nodeId
+     * @param taskId
+     */
+    public void removeTask(Long nodeId, Long taskId) {
+        synchronized (_NODE_TASK_CACHE) {
+            Set<Long> tasks = _NODE_TASK_CACHE.get(nodeId);
             if (tasks != null) {
                 tasks.remove(taskId);
             }
         }
     }
 
-    public Set<Long> getTasksByNodeId(String nodeName) {
-        return nodeTaskCache.get(nodeName);
+    /**
+     * get running tasks from node cache
+     *
+     * @param nodeId
+     * @return
+     */
+    public Set<Long> getTasksByNodeId(Long nodeId) {
+        return _NODE_TASK_CACHE.get(nodeId);
     }
 
-    public int getTaskCountByNodeId(String nodeName) {
-        synchronized (nodeTaskCache) {
-            Set<Long> tasks = nodeTaskCache.get(nodeName);
+    /**
+     * get number of running tasks from node cache
+     *
+     * @param nodeId
+     * @return
+     */
+    public int getTaskCountByNodeId(Long nodeId) {
+        synchronized (_NODE_TASK_CACHE) {
+            Set<Long> tasks = _NODE_TASK_CACHE.get(nodeId);
             if (tasks == null) {
                 return 0;
             }

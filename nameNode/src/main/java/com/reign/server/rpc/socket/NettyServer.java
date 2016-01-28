@@ -28,7 +28,8 @@ public class NettyServer {
 
     private static volatile NettyServer nettyServer;
 
-    private NettyServer(){}
+    private NettyServer() {
+    }
 
     public static NettyServer getInstance() {
         if (nettyServer == null) {
@@ -65,7 +66,7 @@ public class NettyServer {
                     .bind(new InetSocketAddress(ServerConstant.SERVER_SOCKET, ServerConstant.SERVER_SOCKET_PORT))
                     .sync();
 
-            LOGGER.info("SOCKET SERVER 启动完成,端口:" + ServerConstant.SERVER_SOCKET_PORT);
+            LOGGER.info("SOCKET SERVER STARTED AT PORT:{}", ServerConstant.SERVER_SOCKET_PORT);
         } catch (Exception e) {
             LOGGER.error("SOCKET SERVER START ERROR", e);
             throw new RuntimeException(e);

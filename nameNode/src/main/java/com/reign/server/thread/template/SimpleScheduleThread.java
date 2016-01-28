@@ -10,7 +10,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Created by ji on 15-9-28.
- * 简单的Schedule线程,定时时间间隔执行,只需要名称和时间间隔参数即可执行
+ * Simple Schedule Thread ,this thread will run in interval.
  */
 public class SimpleScheduleThread {
     private String name;

@@ -12,7 +12,7 @@ import java.util.Properties;
 
 /**
  * Created by ji on 15-10-8.
- * 数据源管理
+ * manage druid dataSource
  */
 public class ConnectionManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);

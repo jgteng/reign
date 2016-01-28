@@ -54,6 +54,13 @@ public class AliveCheckZk {
     /**
      * 对外提供的注册节点的方法，节点启动时使用。会执行：
      * 1.创建永久目录
+     *
+     * @param zkConnectionString zk地址:端口
+     * @param nameSpace          工程在zk中的nameSpace
+     * @param nodesPath          节点父目录
+     * @param nodeId             节点编号
+     * @return
+     * @throws Exception
      * @see #createClient()
      * 2.添加节点变化监听器
      * @see #addChildrenListener()
@@ -63,13 +70,6 @@ public class AliveCheckZk {
      * @see #registNode()
      * 5.开启Leader选举
      * @see #startLeaderElect()
-     *
-     * @param zkConnectionString zk地址:端口
-     * @param nameSpace          工程在zk中的nameSpace
-     * @param nodesPath          节点父目录
-     * @param nodeId             节点编号
-     * @return
-     * @throws Exception
      */
     public static synchronized AliveCheckZk regist(String zkConnectionString, String nameSpace, String nodesPath, String nodeId) throws Exception {
         if (zkUtil == null) {
@@ -79,7 +79,7 @@ public class AliveCheckZk {
     }
 
     /**
-     * 关闭相关连接
+     * close
      */
     public static void close() {
         try {
@@ -95,7 +95,7 @@ public class AliveCheckZk {
     }
 
     /**
-     * 开启leader选举
+     * start Leader Election
      *
      * @throws Exception
      */
@@ -117,7 +117,7 @@ public class AliveCheckZk {
     }
 
     /**
-     * zk上注册节点
+     * register node to zookeeper when startup
      *
      * @throws Exception
      */
@@ -135,7 +135,8 @@ public class AliveCheckZk {
     }
 
     /**
-     * 添加session超时监听
+     * add session timeout listener.
+     * this method will be triggered when session timeout
      */
     private void addSessionTimeOutListener() {
         client.getConnectionStateListenable().addListener(new ConnectionStateListener() {
@@ -165,7 +166,8 @@ public class AliveCheckZk {
     }
 
     /**
-     * 添加节点变动监听器
+     * add children listener
+     * this method will be triggered when online nodes change
      *
      * @throws Exception
      */
@@ -182,7 +184,8 @@ public class AliveCheckZk {
     }
 
     /**
-     * 创建目录
+     * Create client directory.
+     * Online NameNode will be registered in this directory
      *
      * @throws Exception
      */

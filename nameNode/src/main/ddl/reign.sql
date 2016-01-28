@@ -13,7 +13,7 @@ CREATE TABLE `reign_task` (
   `disabled` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `task_name_unique` (`task_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `reign_task_node`;
 CREATE TABLE `reign_task_node` (
@@ -24,6 +24,7 @@ CREATE TABLE `reign_task_node` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `reign_task_node_group`;
 CREATE TABLE `reign_task_node_group` (

@@ -11,6 +11,8 @@ import java.util.List;
 public class TaskDao {
 
     public List<Task> selectTaskList() {
+
         return SqlMapperManager.getSqlSession().selectList("selectTaskList");
     }
+
 }

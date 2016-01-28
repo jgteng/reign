@@ -10,17 +10,20 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Created by ji on 15-9-28.
- * 支持复杂cron表达式的Scheduler任务
+ * Support complex cron expression scheduler task
  */
-public class CronScheduleThread  {
+public class CronScheduleThread {
 
     private String name;
 
     private String cron;
 
-    public CronScheduleThread(String name, String cron) {
+    private Class<? extends ThreadTemplate> executeClass;
+
+    public CronScheduleThread(String name, String cron, Class<? extends ThreadTemplate> executeClass) {
         this.name = name;
         this.cron = cron;
+        this.executeClass = executeClass;
     }
 
     public void start() throws Exception {
@@ -30,7 +33,7 @@ public class CronScheduleThread  {
                 .withSchedule(CronScheduleBuilder.cronSchedule(cron))
                 .build();
 
-        JobDetail job = newJob(ThreadTemplate.class)
+        JobDetail job = newJob(executeClass)
                 .withIdentity(name, null)
                 .build();
 

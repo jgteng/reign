@@ -2,7 +2,6 @@ package com.reign.server.main;
 
 import com.reign.domain.task.Task;
 import com.reign.server.core.alive.AliveCheckZk;
-import com.reign.server.dao.ConnectionManager;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.rpc.socket.NettyServer;
 import com.reign.server.thread.executors.TaskScanThread;
@@ -28,14 +27,14 @@ public class StartUp {
 
             AliveCheckZk.regist("127.0.0.1:2181", "reign", "nameNodes", "node1");
 
-            //初始化数据源
+            //init druid data source
 //            ConnectionManager.init();
 
             TaskDao taskDao = new TaskDao();
             List<Task> taskList = taskDao.selectTaskList();
             System.out.println(taskList.size());
 
-            //开启Socket服务端
+            //start socket server
             NettyServer nettyServer = NettyServer.getInstance();
             nettyServer.init();
 

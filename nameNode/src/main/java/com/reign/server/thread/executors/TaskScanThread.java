@@ -4,6 +4,7 @@ import com.reign.component.constants.CoreConstant;
 import com.reign.domain.task.Task;
 import com.reign.server.cache.NodeCache;
 import com.reign.server.dao.TaskDao;
+import com.reign.server.domain.CacheTaskNodeInfo;
 import com.reign.server.thread.template.ThreadTemplate;
 
 import java.util.List;
@@ -36,13 +37,17 @@ public class TaskScanThread extends ThreadTemplate {
     }
 
     private void handleTaskWithPhysicalNode(Task task) {
+        CacheTaskNodeInfo taskNodeInfo = NodeCache.getInstance().getNode(task.getNodeId());
+        if (taskNodeInfo == null) {
 
-        NodeCache.getInstance().addTask(task.getNodeName(), task.getId());
+        }
+        NodeCache.getInstance().addTask(task.getNodeId(), task.getId());
 
     }
 
     private void handleTaskWithVirtualNode(Task task) {
-
+        Long groupId = task.getNodeId();
+        
     }
 
 }
