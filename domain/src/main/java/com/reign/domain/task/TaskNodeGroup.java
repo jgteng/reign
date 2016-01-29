@@ -4,24 +4,28 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * one group can contains more than one taskNode
+ * one TaskNode can be in more than one group
+ * <p/>
  * Created by ji on 15-9-28.
- * 节点组,一个节点组可包含多个节点,每个节点也可以隶属于多个节点组
  */
 public class TaskNodeGroup {
 
-    //主键
+    //primary key
     private Long id;
 
-    //节点组名称
+    //name
     private String groupName;
 
-    //描述
+    //max number than can be run on this node concurrency
+    private Integer taskLimit;
+
     private String description;
 
-    //节点组包含的节点列表
+    //taskNode list contains in this gorup
     private List<TaskNode> taskNodeList;
 
-    //创建时间
+    //create time
     private Date created;
 
     public Long getId() {
@@ -38,6 +42,14 @@ public class TaskNodeGroup {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public Integer getTaskLimit() {
+        return taskLimit;
+    }
+
+    public void setTaskLimit(Integer taskLimit) {
+        this.taskLimit = taskLimit;
     }
 
     public String getDescription() {

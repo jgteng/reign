@@ -38,7 +38,8 @@
         run_node_id=#{runNodeId},
         last_run_time=#{lastRunTime},
         `status`=#{status},
-        next_time=#{nextTime}
+        next_time=#{nextTime},
+        run_log_id=#{runLogId}
         where id=#{id};
     </update>
 </mapper>

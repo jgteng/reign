@@ -1,13 +1,11 @@
 package com.reign.server.domain;
 
-import com.reign.domain.task.TaskNode;
+import com.reign.domain.task.TaskNodeGroup;
 
 /**
- * TaskNode info stored in NameNode cache
- * <p/>
  * Created by ji on 16-1-28.
  */
-public class CacheTaskNodeInfo extends TaskNode {
+public class CacheTaskNodeGroupInfo extends TaskNodeGroup {
     //time added to cache
     private Long cacheTime;
 

@@ -4,29 +4,22 @@ import java.util.Date;
 
 /**
  * Created by ji on 15-9-28.
- * 任务运行历史表
+ * task run log history
  */
-public class TaskRunHistroy {
+public class TaskRunLog {
 
-    //主键
     private Long id;
 
-    //任务id
     private Long taskId;
 
-    //运行批次号
-    private Long runBachNum;
-
-    //任务名称
     private String taskName;
 
-    //任务开始运行时间
+    private Date queueTime;
+
     private Date startTime;
 
-    //任务结束时间
     private Date endTime;
 
-    //运行状态
     private Integer status;
 
     public Long getId() {
@@ -45,20 +38,20 @@ public class TaskRunHistroy {
         this.taskId = taskId;
     }
 
-    public Long getRunBachNum() {
-        return runBachNum;
-    }
-
-    public void setRunBachNum(Long runBachNum) {
-        this.runBachNum = runBachNum;
-    }
-
     public String getTaskName() {
         return taskName;
     }
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public Date getQueueTime() {
+        return queueTime;
+    }
+
+    public void setQueueTime(Date queueTime) {
+        this.queueTime = queueTime;
     }
 
     public Date getStartTime() {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.reign.server.dao.TaskRunLogDao">
+    <insert id="addTaskRunLog" parameterType="TaskRunLog">
+        <selectKey keyProperty="id" resultType="Long">
+            SELECT @@IDENTITY AS id
+        </selectKey>
+        INSERT INTO reign_task_run_log (
+          task_id,
+          task_name,
+          queue_time,
+          `status`,
+          created
+        )
+        VALUES (
+          #{taskId},
+          #{taskName},
+          #{queueTime},
+          #{status},
+          now()
+        )
+    </insert>
+</mapper>

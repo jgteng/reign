@@ -7,6 +7,7 @@ CREATE TABLE `reign_task` (
   `status` int(2) NOT NULL,
   `last_run_time` datetime DEFAULT NULL,
   `next_time` datetime DEFAULT NULL,
+  `run_log_id`  bigint NULL COMMENT '运行记录id',
   `description` varchar(1024) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
@@ -43,17 +44,18 @@ CREATE TABLE `reign_task_node_group_rel` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-DROP TABLE IF EXISTS `reign_task_run_history`;
-CREATE TABLE `reign_task_run_history` (
+DROP TABLE IF EXISTS `reign_task_run_log`;
+CREATE TABLE `reign_task_run_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `task_id` bigint(20) NOT NULL,
-  `run_bach_num` int(11) NOT NULL,
   `task_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
+  `queue_time` datetime NOT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
   `status` int(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 -- ----------------------------
 -- Table structure for reign_script

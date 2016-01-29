@@ -53,6 +53,8 @@ public class Task extends CommonBean {
     //任务状态(0:wait,1:queue,2:running,3:fail)
     private Integer status;
 
+    private Long runLogId;
+
     //是否禁用.1:已禁用
     private Integer disabled;
 
@@ -189,5 +191,13 @@ public class Task extends CommonBean {
 
     public void setRunNodeName(String runNodeName) {
         this.runNodeName = runNodeName;
+    }
+
+    public Long getRunLogId() {
+        return runLogId;
+    }
+
+    public void setRunLogId(Long runLogId) {
+        this.runLogId = runLogId;
     }
 }

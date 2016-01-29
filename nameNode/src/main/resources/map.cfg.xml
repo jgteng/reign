@@ -10,6 +10,7 @@
     <typeAliases>
         <typeAlias alias="Task" type="com.reign.domain.task.Task" />
         <typeAlias alias="CacheTaskNodeInfo" type="com.reign.server.domain.CacheTaskNodeInfo"/>
+        <typeAlias alias="TaskRunLog" type="com.reign.domain.task.TaskRunLog"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -26,5 +27,6 @@
     <mappers>
         <mapper resource="maps/TaskDao.xml" />
         <mapper resource="maps/TaskNodeDao.xml"/>
+        <mapper resource="maps/TaskRunLogDao.xml"/>
     </mappers>
 </configuration>

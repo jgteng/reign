@@ -49,12 +49,10 @@ public class NodeGroupCache {
     }
 
     public int getTasksCountByGroupId(Long groupId) {
-        synchronized (nodeGroupTaskCache) {
-            Set<Long> tasks = nodeGroupTaskCache.get(groupId);
-            if (tasks == null) {
-                return 0;
-            }
-            return tasks.size();
+        Set<Long> tasks = nodeGroupTaskCache.get(groupId);
+        if (tasks == null) {
+            return 0;
         }
+        return tasks.size();
     }
 }

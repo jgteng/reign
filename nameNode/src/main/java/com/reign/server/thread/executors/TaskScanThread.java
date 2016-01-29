@@ -3,8 +3,11 @@ package com.reign.server.thread.executors;
 import com.reign.component.constants.CoreConstant;
 import com.reign.component.utils.CronExpressionUtil;
 import com.reign.domain.task.Task;
+import com.reign.domain.task.TaskRunLog;
 import com.reign.server.cache.NodeCache;
+import com.reign.server.cache.PipeLineCache;
 import com.reign.server.dao.TaskDao;
+import com.reign.server.dao.TaskRunLogDao;
 import com.reign.server.domain.CacheTaskNodeInfo;
 import com.reign.server.thread.template.ThreadTemplate;
 import org.slf4j.Logger;
@@ -19,6 +22,7 @@ import java.util.List;
 public class TaskScanThread extends ThreadTemplate {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskScanThread.class);
     private TaskDao taskDao = new TaskDao();
+    private TaskRunLogDao taskRunLogDao = new TaskRunLogDao();
 
     @Override
     public void run() {
@@ -43,6 +47,8 @@ public class TaskScanThread extends ThreadTemplate {
                 } else if (nodeType.equals(CoreConstant.NODE_TYPE_VIRTUAL)) {
                     //this method will invoke if task allocate on node group
                     this.handleTaskWithVirtualNode(task);
+                } else {
+                    LOGGER.error("Task [taskId:{},taskName:{}] have invalid node type [nodeType:{}], escape.", new Object[]{task.getId(), task.getTaskName(), task.getNodeType()});
                 }
             }
         }
@@ -54,6 +60,9 @@ public class TaskScanThread extends ThreadTemplate {
      * @param task
      */
     private void handleTaskWithPhysicalNode(Task task) {
+        if (task.getNodeId() == null) {
+            LOGGER.error("Task [taskId:{},taskName:{}] nodeId is null, escape this running.", task.getId(), task.getTaskName());
+        }
         CacheTaskNodeInfo taskNodeInfo = NodeCache.getInstance().getNode(task.getNodeId());
         if (taskNodeInfo == null) {
             LOGGER.error("Can not get TaskNode [nodeId:{}] to run task [taskId:{}]", task.getNodeId(), task.getId());
@@ -72,6 +81,7 @@ public class TaskScanThread extends ThreadTemplate {
         this.generateTaskRunningInfo(task, taskNodeInfo);
         int successCount = taskDao.updateTaskToQueue(task);
         NodeCache.getInstance().addTask(task.getNodeId(), task.getId());
+        PipeLineCache.getInstance().addTaskToNode(task.getRunNodeName(), task.getId());
     }
 
     private void generateTaskRunningInfo(Task task, CacheTaskNodeInfo taskNodeInfo) {
@@ -86,6 +96,15 @@ public class TaskScanThread extends ThreadTemplate {
             LOGGER.error("calculate next run time error [taskRule:]");
         }
         task.setNextTime(nextTime);
+
+        TaskRunLog taskRunLog = new TaskRunLog();
+        taskRunLog.setTaskId(task.getId());
+        taskRunLog.setTaskName(task.getTaskName());
+        taskRunLog.setStatus(CoreConstant.TASK_STATUS_QUEUE);
+        taskRunLog.setQueueTime(new Date());
+        taskRunLogDao.addTaskRunLog(taskRunLog);
+
+        task.setRunLogId(taskRunLog.getId());
     }
 
     /**
@@ -95,7 +114,6 @@ public class TaskScanThread extends ThreadTemplate {
      */
     private void handleTaskWithVirtualNode(Task task) {
         Long groupId = task.getNodeId();
-
     }
 
 }
