@@ -85,7 +85,7 @@
            FROM reign_task  rtk
            LEFT JOIN reign_task_node rtn ON rtk.node_id = rtn.id
            LEFT JOIN reign_task_node rtn2 ON rtk.run_node_id=rtn2.id
-           WHERE (rtk.`status`='1' OR rtk.`status`='2')
+           WHERE (rtk.`status`='1' OR rtk.`status`='2' OR rtk.`status`='3')
             AND rtk.disabled!=1
     </select>
 

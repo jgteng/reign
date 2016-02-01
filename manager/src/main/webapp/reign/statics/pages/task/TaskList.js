@@ -44,8 +44,10 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                         else if (param1 == 1)
                             return '队列中'
                         else if (param1 == 2)
-                            return '运行中'
+                            return '已领取'
                         else if (param1 == 3)
+                            return '运行中'
+                        else if (param1 == 4)
                             return '失败'
                         return param1
                     }
@@ -96,7 +98,7 @@ taskListApp.controller('taskListCtrl', function ($scope) {
                 }
 
                 //空闲或者失败,则任务可以重跑
-                if (status == 0 || status == 3) {
+                if (status == 0 || status == 4) {
                     $('#btn_rerun').enable();
                 } else {
                     $('#btn_rurun').attr({"disabled": "disabled"});
