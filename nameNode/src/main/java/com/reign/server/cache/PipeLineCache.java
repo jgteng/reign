@@ -28,7 +28,7 @@ public class PipeLineCache {
 
     public void addTaskToNode(String nodeName, Long taskId) {
         synchronized (_NODE_TASK_CACHE) {
-            if (_NODE_TASK_CACHE.contains(nodeName)) {
+            if (_NODE_TASK_CACHE.containsKey(nodeName)) {
                 Set<Long> tmpSet = _NODE_TASK_CACHE.get(nodeName);
                 tmpSet.add(taskId);
             } else {
@@ -42,7 +42,7 @@ public class PipeLineCache {
 
     public List<Long> getTasksByNodeName(String nodeName) {
         List<Long> taskIds = null;
-        if (_NODE_TASK_CACHE.contains(nodeName)) {
+        if (_NODE_TASK_CACHE.containsKey(nodeName)) {
             Set<Long> taskSet = _NODE_TASK_CACHE.get(nodeName);
             if (taskSet != null && taskSet.size() > 0) {
                 taskIds = new ArrayList<Long>();

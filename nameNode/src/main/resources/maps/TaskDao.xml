@@ -42,4 +42,58 @@
         run_log_id=#{runLogId}
         where id=#{id};
     </update>
+
+    <select id="getTaskById" parameterType="Long" resultType="Task">
+        SELECT
+            rtk.id as id,
+            rtk.`status` AS status,
+            rtk.task_name as taskName,
+            rtk.main_script as mainScript,
+            rtk.task_rule as taskRule,
+            rtk.node_id as nodeId,
+            rtk.node_type as nodeType,
+            rtn.node_name as nodeName,
+            rtk.run_node_id as runNodeId,
+            rtk.last_run_time as lastRunTime,
+            rtk.next_time as nextTime,
+            rtk.description as description,
+            rtk.created as created,
+            rtk.modified as modified
+           FROM reign_task  rtk
+           LEFT JOIN reign_task_node rtn ON rtk.node_id = rtn.id
+           WHERE rtk.id=#{taskId}
+            AND rtk.disabled!=1
+    </select>
+
+    <select id="getQueueRunTask" resultType="Task">
+        SELECT
+            rtk.id as id,
+            rtk.`status` AS status,
+            rtk.task_name as taskName,
+            rtk.main_script as mainScript,
+            rtk.task_rule as taskRule,
+            rtk.node_id as nodeId,
+            rtk.node_type as nodeType,
+            rtn.node_name as nodeName,
+            rtk.run_node_id as runNodeId,
+            rtk.last_run_time as lastRunTime,
+            rtk.next_time as nextTime,
+            rtk.description as description,
+            rtk.created as created,
+            rtk.modified as modified,
+            rtn2.node_name AS runNodeName
+           FROM reign_task  rtk
+           LEFT JOIN reign_task_node rtn ON rtk.node_id = rtn.id
+           LEFT JOIN reign_task_node rtn2 ON rtk.run_node_id=rtn2.id
+           WHERE (rtk.`status`='1' OR rtk.`status`='2')
+            AND rtk.disabled!=1
+    </select>
+
+    <update id="updateTaskStatus" parameterType="Task">
+        UPDATE reign_task
+        SET
+          `status`=#{status}
+        WHERE
+          id=#{id};
+    </update>
 </mapper>

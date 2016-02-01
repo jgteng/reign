@@ -1,5 +1,9 @@
 package com.reign.server.core.alive;
 
+import com.reign.server.cache.NodeCache;
+import com.reign.server.cache.NodeGroupCache;
+import com.reign.server.main.StartUp;
+import com.reign.server.thread.template.WorkThreadControl;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -24,6 +28,9 @@ import java.util.List;
  */
 public class AliveCheckZk {
     private static final Logger LOGGER = LoggerFactory.getLogger(AliveCheckZk.class);
+
+    //whether leader or not
+    private static volatile boolean leader;
 
     private static AliveCheckZk zkUtil;
     private static String nameSpace;
@@ -105,11 +112,21 @@ public class AliveCheckZk {
             public void isLeader() {
                 //todo 节点选举为leader后，触发该逻辑
                 LOGGER.warn("I am leader! HA ");
+                leader = true;
+                LOGGER.warn("[Become leader] and start initializing tasks");
+                StartUp.initTask();
+                LOGGER.warn("[Become leader] and start work thread");
+                WorkThreadControl.startWorkThread();
             }
 
             public void notLeader() {
                 //todo 节点从leader改变为非leader后触发该逻辑
                 LOGGER.warn("I am not leader");
+                leader = false;
+                LOGGER.warn("[I not leader] stop work thread");
+                WorkThreadControl.stopWorkThread();
+                NodeCache.getInstance().clearAllCache();
+                NodeGroupCache.getInstance().clearAllCache();
             }
         });
 
@@ -208,4 +225,7 @@ public class AliveCheckZk {
         }
     }
 
+    public boolean isLeader() {
+        return leader;
+    }
 }

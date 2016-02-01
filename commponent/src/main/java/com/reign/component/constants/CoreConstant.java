@@ -13,5 +13,6 @@ public class CoreConstant {
     public static final int TASK_STATUS_QUEUE = 1;
     public static final int TASK_STATUS_RUN = 2;
     public static final int TASK_STATUS_FAIL = 3;
+    public static final int TASK_STATUS_TAKEN = 4;
     /*** task status end **/
 }

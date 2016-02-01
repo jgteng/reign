@@ -112,4 +112,13 @@ public class NodeCache {
         return tasks.size();
     }
 
+    /**
+     * Clear all cache.
+     * <p>This method will be called when node become not leader</p>
+     */
+    public void clearAllCache() {
+        _NODE_CACHE.clear();
+        _NODE_TASK_CACHE.clear();
+    }
+
 }

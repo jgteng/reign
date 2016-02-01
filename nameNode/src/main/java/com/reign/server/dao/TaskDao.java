@@ -17,4 +17,16 @@ public class TaskDao {
     public int updateTaskToQueue(Task task) {
         return SqlMapperManager.getSqlSession().update("updateTaskToQueue", task);
     }
+
+    public Task getTaskById(Long taskId) {
+        return SqlMapperManager.getSqlSession().selectOne("getTaskById", taskId);
+    }
+
+    public List<Task> getQueueRunTask() {
+        return SqlMapperManager.getSqlSession().selectList("getQueueRunTask");
+    }
+
+    public int changeTaskStatus(Task task) {
+        return SqlMapperManager.getSqlSession().update("updateTaskStatus", task);
+    }
 }

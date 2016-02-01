@@ -1,6 +1,11 @@
 package com.reign.server.main;
 
+import com.reign.component.constants.CoreConstant;
 import com.reign.domain.task.Task;
+import com.reign.server.cache.NodeCache;
+import com.reign.server.cache.NodeGroupCache;
+import com.reign.server.cache.PipeLineCache;
+import com.reign.server.cache.TaskCache;
 import com.reign.server.core.alive.AliveCheckZk;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.rpc.socket.NettyServer;
@@ -47,6 +52,31 @@ public class StartUp {
             System.exit(-1);
         }
 
+    }
+
+    /**
+     * init tasks when NameNode become online and is leader
+     */
+    public static void initTask() {
+        TaskDao taskDao = new TaskDao();
+        List<Task> taskList = taskDao.getQueueRunTask();
+        if (taskList != null && taskList.size() > 0) {
+            for (Task task : taskList) {
+                if (task != null && task.getStatus() != null) {
+                    TaskCache.getInstance().addTask(task);
+                    NodeCache.getInstance().addTask(task.getNodeId(), task.getId());
+                    //If task status is 'queue', then add task to PipeLine
+                    if (task.getStatus().intValue() == CoreConstant.TASK_STATUS_QUEUE) {
+                        PipeLineCache.getInstance().addTaskToNode(task.getRunNodeName(), task.getId());
+                    }
+
+                    //if TaskNode type is 'virtual', then add task to NodeGroupCache
+                    if (task.getNodeType() != null && !task.getNodeType().equals(CoreConstant.NODE_TYPE_VIRTUAL)) {
+                        NodeGroupCache.getInstance().addTask(task.getNodeId(), task.getId());
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import com.reign.domain.task.Task;
 import com.reign.domain.task.TaskRunLog;
 import com.reign.server.cache.NodeCache;
 import com.reign.server.cache.PipeLineCache;
+import com.reign.server.cache.TaskCache;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.dao.TaskRunLogDao;
 import com.reign.server.domain.CacheTaskNodeInfo;
@@ -79,9 +80,19 @@ public class TaskScanThread extends ThreadTemplate {
         }
 
         this.generateTaskRunningInfo(task, taskNodeInfo);
+        //update task status=queue,nextTime,run node info
         int successCount = taskDao.updateTaskToQueue(task);
+        if (successCount <= 0) {
+            LOGGER.error("Update task status to 'queue' error [taskId:{}]", task.getId());
+            return;
+        }
+
+        //add task to TaskNode running list
         NodeCache.getInstance().addTask(task.getNodeId(), task.getId());
+        //add task to pipeline
         PipeLineCache.getInstance().addTaskToNode(task.getRunNodeName(), task.getId());
+        //add task to TaskCache
+        TaskCache.getInstance().addTask(task);
     }
 
     private void generateTaskRunningInfo(Task task, CacheTaskNodeInfo taskNodeInfo) {
