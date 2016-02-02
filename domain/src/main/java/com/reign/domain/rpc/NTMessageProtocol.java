@@ -1,6 +1,7 @@
 package com.reign.domain.rpc;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -9,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 public class NTMessageProtocol {
     private Integer type;
     private JSONObject data;
+    private JSONArray arrayData;
 
     public Integer getType() {
         return type;
@@ -24,6 +26,14 @@ public class NTMessageProtocol {
 
     public void setData(JSONObject data) {
         this.data = data;
+    }
+
+    public JSONArray getArrayData() {
+        return arrayData;
+    }
+
+    public void setArrayData(JSONArray arrayData) {
+        this.arrayData = arrayData;
     }
 
     @Override

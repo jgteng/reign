@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by ji on 15-10-8.
  */
-public class TaskDao {
+public class TaskDao extends BaseDao{
 
     public List<Task> selectTaskList() {
         return SqlMapperManager.getSqlSession().selectList("selectTaskList");

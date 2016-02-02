@@ -7,6 +7,7 @@ import com.reign.server.cache.NodeGroupCache;
 import com.reign.server.cache.PipeLineCache;
 import com.reign.server.cache.TaskCache;
 import com.reign.server.core.alive.AliveCheckZk;
+import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.rpc.socket.NettyServer;
 import com.reign.server.thread.executors.TaskScanThread;
@@ -35,7 +36,7 @@ public class StartUp {
             //init druid data source
 //            ConnectionManager.init();
 
-            TaskDao taskDao = new TaskDao();
+            TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
             List<Task> taskList = taskDao.selectTaskList();
             System.out.println(taskList.size());
 
@@ -58,7 +59,7 @@ public class StartUp {
      * init tasks when NameNode become online and is leader
      */
     public static void initTask() {
-        TaskDao taskDao = new TaskDao();
+        TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
         List<Task> taskList = taskDao.getQueueRunTask();
         if (taskList != null && taskList.size() > 0) {
             for (Task task : taskList) {

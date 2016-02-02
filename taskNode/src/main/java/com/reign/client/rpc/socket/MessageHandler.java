@@ -30,6 +30,7 @@ public class MessageHandler extends ChannelHandlerAdapter {
                 resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
                 break;
         }
+        ctx.channel().writeAndFlush(resultMessage);
     }
 
     @Override

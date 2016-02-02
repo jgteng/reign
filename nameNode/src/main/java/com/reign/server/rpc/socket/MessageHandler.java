@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.reign.component.constants.MessageTypeConstant;
 import com.reign.domain.rpc.NTMessageProtocol;
 import com.reign.server.rpc.handler.PullTaskListMessageHandler;
+import com.reign.server.rpc.handler.TaskStatusMessageHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ public class MessageHandler extends ChannelHandlerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageHandler.class);
 
     private static final PullTaskListMessageHandler taskListMessageHandler = new PullTaskListMessageHandler();
+
+    private static final TaskStatusMessageHandler taskStatusMessageHandler = new TaskStatusMessageHandler();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -35,6 +38,8 @@ public class MessageHandler extends ChannelHandlerAdapter {
             case MessageTypeConstant.TASK_PULL_TYPE:
                 resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
                 break;
+            case MessageTypeConstant.TASK_TAKEN_TYPE:
+                resultMessage = taskStatusMessageHandler.handleMessage(messageProtocol);
         }
 
         ctx.channel().writeAndFlush(resultMessage);

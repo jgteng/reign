@@ -24,4 +24,18 @@
           now()
         )
     </insert>
+
+    <update id="changeStatus" parameterType="TaskRunLog">
+        UPDATE  reign_task_run_log
+        SET
+          `status`=#{status}
+          <if test="startTime!=null" >
+              ,start_time=#{startTime}
+          </if>
+          <if test="endTime!=null">
+              ,end_time=#{endTime}
+          </if>
+        WHERE
+          id=#{id};
+    </update>
 </mapper>

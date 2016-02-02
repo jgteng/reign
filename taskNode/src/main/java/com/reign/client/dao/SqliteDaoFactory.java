@@ -46,8 +46,15 @@ public class SqliteDaoFactory {
         }
     }
 
-    public Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+
+    public void insertTaskStatus(Long logId) throws SQLException {
+        PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO TASK_RUN_STATUS (log_id,result)VALUES (?,'3')");
+        preparedStatement.setString(1, logId.toString());
+        preparedStatement.executeUpdate();
     }
 
     public static void main(String[] args) {

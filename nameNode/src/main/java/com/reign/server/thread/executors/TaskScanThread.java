@@ -7,6 +7,7 @@ import com.reign.domain.task.TaskRunLog;
 import com.reign.server.cache.NodeCache;
 import com.reign.server.cache.PipeLineCache;
 import com.reign.server.cache.TaskCache;
+import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.dao.TaskRunLogDao;
 import com.reign.server.domain.CacheTaskNodeInfo;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class TaskScanThread extends ThreadTemplate {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskScanThread.class);
-    private TaskDao taskDao = new TaskDao();
+    private TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
     private TaskRunLogDao taskRunLogDao = new TaskRunLogDao();
 
     @Override

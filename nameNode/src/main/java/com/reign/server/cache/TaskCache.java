@@ -1,6 +1,7 @@
 package com.reign.server.cache;
 
 import com.reign.domain.task.Task;
+import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,6 @@ public class TaskCache {
     private static final TaskCache _TASK_CACHE = new TaskCache();
 
     private static final ConcurrentHashMap<Long, Task> _TASK_MAP = new ConcurrentHashMap<Long, Task>();
-
-    private TaskDao taskDao = new TaskDao();
 
     private TaskCache() {
     }
@@ -39,6 +38,7 @@ public class TaskCache {
         try {
             task = _TASK_MAP.get(taskId);
             if (task == null) {
+                TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
                 task = taskDao.getTaskById(taskId);
             }
         } catch (Exception e) {

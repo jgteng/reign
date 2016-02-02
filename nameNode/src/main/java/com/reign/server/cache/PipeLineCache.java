@@ -58,4 +58,14 @@ public class PipeLineCache {
         return taskIds;
     }
 
+    public void removeTask(String runNodeName, Long taskId) {
+        synchronized (_NODE_TASK_CACHE) {
+            if (_NODE_TASK_CACHE.containsKey(runNodeName)) {
+                Set<Long> tmpSet = _NODE_TASK_CACHE.get(runNodeName);
+                if (tmpSet != null && tmpSet.size() > 0) {
+                    tmpSet.remove(taskId);
+                }
+            }
+        }
+    }
 }

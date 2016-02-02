@@ -5,7 +5,7 @@ import com.reign.server.domain.CacheTaskNodeInfo;
 /**
  * Created by ji on 16-1-28.
  */
-public class TaskNodeDao {
+public class TaskNodeDao extends BaseDao{
 
     /**
      * query taskNode info from db by id
