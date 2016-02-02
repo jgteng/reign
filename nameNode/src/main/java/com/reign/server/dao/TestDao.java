@@ -2,12 +2,14 @@ package com.reign.server.dao;
 
 
 import com.reign.domain.task.Task;
+import org.apache.ibatis.session.SqlSession;
 
 /**
  * Created by ji on 15-10-10.
  */
 public class TestDao {
     public static void main(String[] args) {
+        SqlSession sqlSession = SqlMapperManager.getSqlSession();
         try {
 
             //初始化数据源
@@ -18,9 +20,11 @@ public class TestDao {
             task.setMainScript("mainScript");
             task.setTaskRule("rule");
             task.setStatus(0);
-            SqlMapperManager.getSqlSession().insert("addTask", task);
+            sqlSession.insert("addTask", task);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            sqlSession.close();
         }
 
     }

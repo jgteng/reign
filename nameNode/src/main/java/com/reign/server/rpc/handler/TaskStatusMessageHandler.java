@@ -51,7 +51,7 @@ public class TaskStatusMessageHandler implements MessageHandlerInf {
                         }
                     }
                 } catch (Exception e) {
-                    LOGGER.error("[Protocol {}] Handle task status error.{}", new Object[]{MessageTypeConstant.TASK_TAKEN_TYPE, taskStatusData}, e);
+                    LOGGER.error("[Protocol {}] Handle task status error.{}", new Object[]{MessageTypeConstant.TASK_STATUS_TYPE, taskStatusData}, e);
                 }
             }
         }

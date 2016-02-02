@@ -38,11 +38,13 @@ public class MessageHandler extends ChannelHandlerAdapter {
             case MessageTypeConstant.TASK_PULL_TYPE:
                 resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
                 break;
-            case MessageTypeConstant.TASK_TAKEN_TYPE:
+            case MessageTypeConstant.TASK_STATUS_TYPE:
                 resultMessage = taskStatusMessageHandler.handleMessage(messageProtocol);
         }
 
-        ctx.channel().writeAndFlush(resultMessage);
+        if (resultMessage != null && !"".equals(resultMessage)) {
+            ctx.channel().writeAndFlush(resultMessage);
+        }
     }
 
     @Override

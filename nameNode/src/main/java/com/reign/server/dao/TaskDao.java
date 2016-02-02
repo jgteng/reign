@@ -8,25 +8,25 @@ import java.util.List;
 /**
  * Created by ji on 15-10-8.
  */
-public class TaskDao extends BaseDao{
+public class TaskDao extends BaseDao {
 
     public List<Task> selectTaskList() {
-        return SqlMapperManager.getSqlSession().selectList("selectTaskList");
+        return super.selectList("selectTaskList");
     }
 
     public int updateTaskToQueue(Task task) {
-        return SqlMapperManager.getSqlSession().update("updateTaskToQueue", task);
+        return super.update("updateTaskToQueue", task);
     }
 
     public Task getTaskById(Long taskId) {
-        return SqlMapperManager.getSqlSession().selectOne("getTaskById", taskId);
+        return super.selectOne("getTaskById", taskId);
     }
 
     public List<Task> getQueueRunTask() {
-        return SqlMapperManager.getSqlSession().selectList("getQueueRunTask");
+        return super.selectList("getQueueRunTask");
     }
 
     public int changeTaskStatus(Task task) {
-        return SqlMapperManager.getSqlSession().update("updateTaskStatus", task);
+        return super.update("updateTaskStatus", task);
     }
 }

@@ -15,21 +15,20 @@ import java.io.Reader;
  */
 public class SqlMapperManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlMapperManager.class);
-
-    private static SqlSession sqlSession;
+    private static SqlSessionFactory ssf;
 
     static {
         try {
             Reader reader = Resources.getResourceAsReader("map.cfg.xml");
-            SqlSessionFactory ssf = new SqlSessionFactoryBuilder().build(reader);
-            sqlSession = ssf.openSession(true);
+            ssf = new SqlSessionFactoryBuilder().build(reader);
             reader.close();
         } catch (Exception e) {
-            LOGGER.error("mybatis mapper异常", e);
+            LOGGER.error("mybatis mapper error", e);
         }
     }
 
     public static SqlSession getSqlSession() {
+        SqlSession sqlSession = ssf.openSession(true);
         return sqlSession;
     }
 }

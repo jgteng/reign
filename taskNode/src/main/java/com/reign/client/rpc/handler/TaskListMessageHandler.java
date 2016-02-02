@@ -39,7 +39,7 @@ public class TaskListMessageHandler {
                     }
                 }
                 TaskRunStatusRpcData resultData = this.handleTask(task);
-                jsonArray.add(JSON.toJSON(resultData));
+                resultDataArray.add(JSON.toJSON(resultData));
             }
         }
         String resultStr = this.generateResultMessage(resultDataArray);
@@ -55,6 +55,7 @@ public class TaskListMessageHandler {
         try {
             RunTimeBean runTimeBean = new RunTimeBean();
             runTimeBean.setTaskId(task.getId());
+            runTimeBean.setLogId(task.getRunLogId().toString());
             runTimeBean.setTaskName(task.getTaskName());
             runTimeBean.setMainScript(task.getMainScript());
             runTimeBean.setScriptPath("/tmp/");
@@ -71,7 +72,7 @@ public class TaskListMessageHandler {
 
     private String generateResultMessage(JSONArray resultDataArray) {
         NTMessageProtocol ntMessageProtocol = new NTMessageProtocol();
-        ntMessageProtocol.setType(MessageTypeConstant.TASK_TAKEN_TYPE);
+        ntMessageProtocol.setType(MessageTypeConstant.TASK_STATUS_TYPE);
         ntMessageProtocol.setArrayData(resultDataArray);
         return ntMessageProtocol.toString();
     }

@@ -14,6 +14,6 @@ public class TaskNodeDao extends BaseDao{
      * @throws Exception
      */
     public CacheTaskNodeInfo getTaskNodeById(Long nodeId) throws Exception {
-        return SqlMapperManager.getSqlSession().selectOne("getTaskNodeById", nodeId);
+        return super.selectOne("getTaskNodeById", nodeId);
     }
 }

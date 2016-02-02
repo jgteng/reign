@@ -57,6 +57,21 @@ public class SqliteDaoFactory {
         preparedStatement.executeUpdate();
     }
 
+    public void updateProcessId(String logId, int pid) throws SQLException {
+        PreparedStatement preparedStatement = getConnection().prepareStatement("UPDATE TASK_RUN_STATUS SET process_id=? where log_id=?");
+        preparedStatement.setString(1, "" + pid);
+        preparedStatement.setString(2, logId);
+        preparedStatement.executeUpdate();
+    }
+
+
+    public void updateStatus(String logId, int status) throws SQLException {
+        PreparedStatement preparedStatement = getConnection().prepareStatement("UPDATE TASK_RUN_STATUS SET result=? where log_id=?");
+        preparedStatement.setString(1, status + "");
+        preparedStatement.setString(2, logId);
+        preparedStatement.executeUpdate();
+    }
+
     public static void main(String[] args) {
         try {
             Connection connection = SqliteDaoFactory.getInstance().getConnection();
@@ -67,4 +82,5 @@ public class SqliteDaoFactory {
             e.printStackTrace();
         }
     }
+
 }
