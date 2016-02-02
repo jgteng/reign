@@ -36,7 +36,7 @@ public class StartUp {
             //init druid data source
 //            ConnectionManager.init();
 
-            TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+            TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
             List<Task> taskList = taskDao.selectTaskList();
             System.out.println(taskList.size());
 
@@ -59,7 +59,7 @@ public class StartUp {
      * init tasks when NameNode become online and is leader
      */
     public static void initTask() {
-        TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+        TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
         List<Task> taskList = taskDao.getQueueRunTask();
         if (taskList != null && taskList.size() > 0) {
             for (Task task : taskList) {

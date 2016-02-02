@@ -18,13 +18,13 @@ import java.util.List;
 /**
  * Created by ji on 16-1-15.
  */
-public class PullTaskListMessageHandler implements MessageHandlerInf{
+public class PullTaskListMessageHandler implements MessageHandlerInf {
     private static final Logger LOGGER = LoggerFactory.getLogger(PullTaskListMessageHandler.class);
 
     private static TaskDao taskDao;
 
     static {
-        taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+        taskDao = DaoFactory.getDao(TaskDao.class);
     }
 
     @Override

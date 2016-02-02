@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class TaskScanThread extends ThreadTemplate {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskScanThread.class);
-    private TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+    private TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
     private TaskRunLogDao taskRunLogDao = new TaskRunLogDao();
 
     @Override

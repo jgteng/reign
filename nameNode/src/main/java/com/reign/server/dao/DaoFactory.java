@@ -16,11 +16,11 @@ public class DaoFactory {
     private DaoFactory() {
     }
 
-    public static BaseDao getDao(Class<? extends BaseDao> clazz) {
+    public static <T> T getDao(Class<? extends BaseDao> clazz) {
         BaseDao baseDao = null;
         String clazzName = clazz.getSimpleName();
         if (_DAO_MAP.containsKey(clazzName)) {
-            return _DAO_MAP.get(clazzName);
+            return (T) _DAO_MAP.get(clazzName);
         } else {
             synchronized (_DAO_MAP) {
                 if (!_DAO_MAP.containsKey(clazzName)) {
@@ -33,6 +33,6 @@ public class DaoFactory {
                 }
             }
         }
-        return baseDao;
+        return (T) baseDao;
     }
 }

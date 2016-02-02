@@ -38,7 +38,7 @@ public class TaskCache {
         try {
             task = _TASK_MAP.get(taskId);
             if (task == null) {
-                TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+                TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
                 task = taskDao.getTaskById(taskId);
             }
         } catch (Exception e) {

@@ -72,9 +72,9 @@ public class TaskStatusMessageHandler implements MessageHandlerInf {
         task.setStatus(CoreConstant.TASK_STATUS_RUN);
         TaskCache.getInstance().addTask(task);
 
-        TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+        TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
         taskDao.changeTaskStatus(task);
-        TaskRunLogDao taskRunLogDao = (TaskRunLogDao) DaoFactory.getDao(TaskRunLogDao.class);
+        TaskRunLogDao taskRunLogDao = DaoFactory.getDao(TaskRunLogDao.class);
 
         TaskRunLog taskRunLog = new TaskRunLog();
         taskRunLog.setId(taskStatusData.getLogId());
@@ -101,9 +101,9 @@ public class TaskStatusMessageHandler implements MessageHandlerInf {
         /*** remove from cache end  ***/
 
 
-        TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+        TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
         taskDao.changeTaskStatus(task);
-        TaskRunLogDao taskRunLogDao = (TaskRunLogDao) DaoFactory.getDao(TaskRunLogDao.class);
+        TaskRunLogDao taskRunLogDao = DaoFactory.getDao(TaskRunLogDao.class);
 
         TaskRunLog taskRunLog = new TaskRunLog();
         taskRunLog.setId(taskStatusData.getLogId());
@@ -130,9 +130,9 @@ public class TaskStatusMessageHandler implements MessageHandlerInf {
         }
         /*** remove from cache end  ***/
 
-        TaskDao taskDao = (TaskDao) DaoFactory.getDao(TaskDao.class);
+        TaskDao taskDao = DaoFactory.getDao(TaskDao.class);
         taskDao.changeTaskStatus(task);
-        TaskRunLogDao taskRunLogDao = (TaskRunLogDao) DaoFactory.getDao(TaskRunLogDao.class);
+        TaskRunLogDao taskRunLogDao = DaoFactory.getDao(TaskRunLogDao.class);
 
         TaskRunLog taskRunLog = new TaskRunLog();
         taskRunLog.setId(taskStatusData.getLogId());
