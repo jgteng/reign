@@ -1,6 +1,7 @@
 package com.reign.client.rpc.socket;
 
 import com.alibaba.fastjson.JSON;
+import com.reign.client.rpc.handler.CheckTaskStatusHandler;
 import com.reign.client.rpc.handler.TaskListMessageHandler;
 import com.reign.component.constants.MessageTypeConstant;
 import com.reign.domain.rpc.NTMessageProtocol;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 public class MessageHandler extends ChannelHandlerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageHandler.class);
     private static final TaskListMessageHandler taskListMessageHandler = new TaskListMessageHandler();
+    private static final CheckTaskStatusHandler checkTaskStatusHandler = new CheckTaskStatusHandler();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -29,8 +31,15 @@ public class MessageHandler extends ChannelHandlerAdapter {
             case MessageTypeConstant.TASK_PULL_RESULT_TYPE:
                 resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
                 break;
+            case MessageTypeConstant.GET_TASK_STATUS_TYPE:
+                resultMessage = checkTaskStatusHandler.handleMessage(messageProtocol);
+                break;
+            default:
+                LOGGER.error("[MessageHandler] Can not find message type. type:[]", messageProtocol.getType());
         }
-        ctx.channel().writeAndFlush(resultMessage);
+        if (resultMessage != null && !"".equals(resultMessage)) {
+            ctx.channel().writeAndFlush(resultMessage);
+        }
     }
 
     @Override

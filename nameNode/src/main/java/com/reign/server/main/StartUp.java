@@ -2,10 +2,7 @@ package com.reign.server.main;
 
 import com.reign.component.constants.CoreConstant;
 import com.reign.domain.task.Task;
-import com.reign.server.cache.NodeCache;
-import com.reign.server.cache.NodeGroupCache;
-import com.reign.server.cache.PipeLineCache;
-import com.reign.server.cache.TaskCache;
+import com.reign.server.cache.*;
 import com.reign.server.core.alive.AliveCheckZk;
 import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
@@ -45,7 +42,6 @@ public class StartUp {
             nettyServer.init();
 
             taskThread = new SimpleScheduleThread("taskThread", 60, TaskScanThread.class);
-
             taskThread.start();
 
         } catch (Exception e) {
@@ -69,6 +65,10 @@ public class StartUp {
                     //If task status is 'queue', then add task to PipeLine
                     if (task.getStatus().intValue() == CoreConstant.TASK_STATUS_QUEUE) {
                         PipeLineCache.getInstance().addTaskToNode(task.getRunNodeName(), task.getId());
+                    }
+
+                    if (task.getStatus().intValue() == CoreConstant.TASK_STATUS_TAKEN || task.getStatus().intValue() == CoreConstant.TASK_STATUS_RUN) {
+                        RunningTasksFromTaskNodeCache.getInstance().add(task.getId(), task.getRunNodeName());
                     }
 
                     //if TaskNode type is 'virtual', then add task to NodeGroupCache

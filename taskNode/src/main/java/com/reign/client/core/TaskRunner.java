@@ -2,6 +2,7 @@ package com.reign.client.core;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.reign.client.cache.RunningTaskCache;
 import com.reign.client.dao.SqliteDaoFactory;
 import com.reign.client.rpc.socket.NettyClient;
 import com.reign.component.constants.CoreConstant;
@@ -34,7 +35,7 @@ public class TaskRunner implements Runnable {
         int exitVal = this.startProcess();
 
         try {
-            SqliteDaoFactory.getInstance().updateStatus(runTimeBean.getLogId(),exitVal == 0 ? CoreConstant.TASK_STATUS_WAIT : CoreConstant.TASK_STATUS_FAIL);
+            SqliteDaoFactory.getInstance().updateStatus(runTimeBean.getLogId(), exitVal == 0 ? CoreConstant.TASK_STATUS_WAIT : CoreConstant.TASK_STATUS_FAIL);
         } catch (Exception e) {
             LOGGER.error("write task end status into sqlLite error,[taskId:{},logId:{},result:{}]", new Object[]{runTimeBean.getTaskId(), runTimeBean.getLogId(), exitVal}, e);
         }
@@ -85,6 +86,9 @@ public class TaskRunner implements Runnable {
 
             process = processBuilder.start();
 
+            //add task to running cache when started
+            RunningTaskCache.getInstance().addTask(runTimeBean);
+
             int pid = this.getProcessId(process);
             runTimeBean.setPid(pid);
 
@@ -100,6 +104,9 @@ public class TaskRunner implements Runnable {
 
             exitVal = process.waitFor();
 
+            //remove task from running cache when task ended
+            RunningTaskCache.getInstance().removeTask(runTimeBean.getTaskId());
+
             Thread.sleep(5000L);
         } catch (Throwable t) {
             LOGGER.error("[TaskRunner => startProcess] Start Task Runner Process Exception", t);
@@ -110,6 +117,7 @@ public class TaskRunner implements Runnable {
 
     /**
      * Get Process ID
+     *
      * @param process
      * @return
      */

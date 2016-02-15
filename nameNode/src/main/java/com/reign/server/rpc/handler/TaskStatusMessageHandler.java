@@ -14,6 +14,7 @@ import com.reign.server.cache.TaskCache;
 import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
 import com.reign.server.dao.TaskRunLogDao;
+import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public class TaskStatusMessageHandler implements MessageHandlerInf {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskStatusMessageHandler.class);
 
     @Override
-    public String handleMessage(NTMessageProtocol messageProtocol) {
+    public String handleMessage(NTMessageProtocol messageProtocol, ChannelHandlerContext ctx) {
         JSONArray statusArray = messageProtocol.getArrayData();
         if (statusArray == null || statusArray.size() > 0) {
             for (int i = 0; i < statusArray.size(); i++) {

@@ -59,6 +59,7 @@ public class TaskListMessageHandler {
             runTimeBean.setTaskName(task.getTaskName());
             runTimeBean.setMainScript(task.getMainScript());
             runTimeBean.setScriptPath("/tmp/");
+
             new Thread(new TaskRunner(runTimeBean), "TASK_RUNNER_THREAD_" + task.getTaskName()).start();
 
             resultData.setStatus(CoreConstant.TASK_STATUS_RUN);

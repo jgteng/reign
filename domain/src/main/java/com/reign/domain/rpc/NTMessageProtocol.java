@@ -11,6 +11,7 @@ public class NTMessageProtocol {
     private Integer type;
     private JSONObject data;
     private JSONArray arrayData;
+    private String source;
 
     public Integer getType() {
         return type;
@@ -34,6 +35,14 @@ public class NTMessageProtocol {
 
     public void setArrayData(JSONArray arrayData) {
         this.arrayData = arrayData;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override

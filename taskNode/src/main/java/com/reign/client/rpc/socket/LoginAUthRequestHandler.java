@@ -2,7 +2,9 @@ package com.reign.client.rpc.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.reign.client.main.StartUp;
 import com.reign.component.constants.MessageTypeConstant;
+import com.reign.domain.rpc.NTMessageProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
@@ -62,6 +64,7 @@ public class LoginAUthRequestHandler extends ChannelHandlerAdapter {
     private String buildLoginRequestMessage() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", MessageTypeConstant.LOGIN_AUTH_REQ_TYPE);
+        jsonObject.put("node", StartUp.nodeName);
         return jsonObject.toJSONString();
     }
 
@@ -83,9 +86,13 @@ public class LoginAUthRequestHandler extends ChannelHandlerAdapter {
         }
 
         private String buildHeatBeat() {
+            NTMessageProtocol ntMessageProtocol = new NTMessageProtocol();
+            ntMessageProtocol.setType(MessageTypeConstant.HEART_BEAT_TYPE);
             JSONObject message = new JSONObject();
-            message.put("type", MessageTypeConstant.HEART_BEAT_TYPE);
-            return message.toJSONString();
+            message.put("node", StartUp.nodeName);
+            ntMessageProtocol.setData(message);
+
+            return ntMessageProtocol.toString();
         }
     }
 }

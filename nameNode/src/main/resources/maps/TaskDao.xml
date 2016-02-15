@@ -23,6 +23,7 @@
            FROM reign_task  rtk
            LEFT JOIN reign_task_node rtn ON rtk.node_id = rtn.id
            WHERE <![CDATA[ DATE_FORMAT(now(),'%Y%m%d%H%i%s') >= rtk.next_time ]]>
+           AND (rtk.status='0' OR rtk.status='4')
             AND rtk.disabled!=1
     </select>
 
@@ -78,6 +79,7 @@
             rtk.run_node_id as runNodeId,
             rtk.last_run_time as lastRunTime,
             rtk.next_time as nextTime,
+            rtk.run_log_id as runLogId,
             rtk.description as description,
             rtk.created as created,
             rtk.modified as modified,
