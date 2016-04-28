@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>nameNode</module>
-        <module>taskNode</module>
+        <module>dispatcher</module>
+        <module>executor</module>
         <module>commponent</module>
         <module>manager</module>
         <module>domain</module>
@@ -31,15 +31,15 @@
     <dependencyManagement>
         <dependencies>
             <!--<dependency>-->
-                <!--<groupId>com.google.guava</groupId>-->
-                <!--<artifactId>guava</artifactId>-->
-                <!--<version>19.0</version>-->
+            <!--<groupId>com.google.guava</groupId>-->
+            <!--<artifactId>guava</artifactId>-->
+            <!--<version>19.0</version>-->
             <!--</dependency>-->
 
             <!--<dependency>-->
-                <!--<groupId>asm</groupId>-->
-                <!--<artifactId>asm</artifactId>-->
-                <!--<version>3.3.1</version>-->
+            <!--<groupId>asm</groupId>-->
+            <!--<artifactId>asm</artifactId>-->
+            <!--<version>3.3.1</version>-->
             <!--</dependency>-->
 
             <dependency>
