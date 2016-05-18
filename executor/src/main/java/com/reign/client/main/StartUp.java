@@ -2,6 +2,7 @@ package com.reign.client.main;
 
 import com.alibaba.fastjson.JSONObject;
 import com.reign.client.rpc.socket.NettyClient;
+import com.reign.client.thread.executors.HeartBeatThread;
 import com.reign.client.thread.executors.PullTaskThread;
 import com.reign.client.thread.executors.SendRunningTasksToNameNode;
 import com.reign.client.thread.template.SimpleScheduleThread;
@@ -22,10 +23,15 @@ public class StartUp {
 
     private static SimpleScheduleThread sendRunningTasksToNameNodeThread;
 
+    private static SimpleScheduleThread heartBeatThread;
+
     public static void main(String[] args) {
         try {
             NettyClient nettyClient = NettyClient.getInstance();
             nettyClient.init();
+
+            heartBeatThread = new SimpleScheduleThread("heartBeatThread", 3, HeartBeatThread.class);
+            heartBeatThread.start();
 
             JSONObject jsonObject = new JSONObject();
 //            jsonObject.put("type", "123");

@@ -19,27 +19,34 @@ public class MessageHandler extends ChannelHandlerAdapter {
     private static final CheckTaskStatusHandler checkTaskStatusHandler = new CheckTaskStatusHandler();
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        NTMessageProtocol messageProtocol = JSON.toJavaObject(JSON.parseObject(msg.toString()), NTMessageProtocol.class);
-        if (messageProtocol == null || messageProtocol.getType() == null) {
-            LOGGER.error("[Message info error] Can not process message without type");
-            return;
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        try {
+            LOGGER.debug("[received:{}]", msg);
+            NTMessageProtocol messageProtocol = JSON.toJavaObject(JSON.parseObject(msg.toString()), NTMessageProtocol.class);
+            if (messageProtocol == null || messageProtocol.getType() == null) {
+                LOGGER.error("[Message info error] Can not process message without type");
+                return;
+            }
+
+            String resultMessage = "";
+            switch (messageProtocol.getType().intValue()) {
+                case MessageTypeConstant.TASK_PULL_RESULT_TYPE:
+                    resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
+                    break;
+                case MessageTypeConstant.GET_TASK_STATUS_TYPE:
+                    resultMessage = checkTaskStatusHandler.handleMessage(messageProtocol);
+                    break;
+                default:
+                    LOGGER.error("[MessageHandler] Can not find message type. type:[]", messageProtocol.getType());
+            }
+            if (resultMessage != null && !"".equals(resultMessage)) {
+                LOGGER.debug("[write:{}]", resultMessage);
+                ctx.channel().writeAndFlush(resultMessage);
+            }
+        } catch (Exception e) {
+            LOGGER.error("handler task status message error", e);
         }
 
-        String resultMessage = "";
-        switch (messageProtocol.getType().intValue()) {
-            case MessageTypeConstant.TASK_PULL_RESULT_TYPE:
-                resultMessage = taskListMessageHandler.handleMessage(messageProtocol);
-                break;
-            case MessageTypeConstant.GET_TASK_STATUS_TYPE:
-                resultMessage = checkTaskStatusHandler.handleMessage(messageProtocol);
-                break;
-            default:
-                LOGGER.error("[MessageHandler] Can not find message type. type:[]", messageProtocol.getType());
-        }
-        if (resultMessage != null && !"".equals(resultMessage)) {
-            ctx.channel().writeAndFlush(resultMessage);
-        }
     }
 
     @Override

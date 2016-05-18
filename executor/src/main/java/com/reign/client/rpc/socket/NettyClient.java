@@ -71,7 +71,7 @@ public class NettyClient implements MessageClient {
 
             LOGGER.info("TaskNode Socket Client Start Successfully At Port " + ClientConstant.CLIENT_PORT);
         } catch (Exception e) {
-            if (channelFuture.channel().isActive()) {
+            if (channelFuture != null && channelFuture.channel().isActive()) {
                 return;
             }
             LOGGER.error("Connect to Server failed", e);

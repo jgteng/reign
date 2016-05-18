@@ -38,7 +38,7 @@ public class SqliteDaoFactory {
     private void createConnection() {
         Properties properties = new Properties();
         properties.setProperty("driverClassName", "org.sqlite.JDBC");
-        properties.setProperty("url", "jdbc:sqlite:/media/ji/document/Workspace/openSource/reign/taskNode/src/main/plugin/sqlite/task_status.db");
+        properties.setProperty("url", "jdbc:sqlite:/media/ji/document/Workspace/openSource/reign/executor/src/main/plugin/sqlite/task_status.db");
         try {
             dataSource = DruidDataSourceFactory.createDataSource(properties);
         } catch (Exception e) {
@@ -85,6 +85,7 @@ public class SqliteDaoFactory {
             taskRunStatus.setStatus(status);
             taskRunStatus.setStatusTimeStr(statusTimeStr);
             taskRunStatus.setLogId(logId);
+            System.out.println(statusTimeStr);
         } finally {
             if (resultSet != null) {
                 resultSet.close();

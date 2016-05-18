@@ -141,6 +141,7 @@ public class ExpireCache<K, V> {
         }
 
         long milliseconds = TimeUnit.MILLISECONDS.convert(firstExpireTime, unit);
+        long expireTime = System.currentTimeMillis() + milliseconds;
         DelayItem delayItem = new DelayItem(key, milliseconds);
         _Q.put(delayItem);
     }

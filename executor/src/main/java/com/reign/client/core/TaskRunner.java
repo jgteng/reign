@@ -14,10 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ji on 16-1-15.
@@ -62,15 +59,15 @@ public class TaskRunner implements Runnable {
         int exitVal = -1;
         try {
             List<String> command = new ArrayList<String>();
-//            command.add("java");
-//            command.add("-jar");
-//            command.add("test.jar");
-//            command.add(JSON.toJSONString(runTimeBean));
+            command.add("java");
+            command.add("-jar");
+            command.add(" /tmp/taskRunner.jar");
+            command.add(JSON.toJSONString(runTimeBean));
 
 
-            command.add("/bin/sh");
-            command.add("-c");
-            command.add(" sh /tmp/test.sh");
+//            command.add("/bin/sh");
+//            command.add("-c");
+//            command.add(" sh /tmp/test.sh");
 
             Process process = null;
 
@@ -80,9 +77,14 @@ public class TaskRunner implements Runnable {
             Map<String, String> processEnv = processBuilder.environment();
 
             //set the environment
-            if (runTimeBean.getEnv() != null && runTimeBean.getEnv().size() > 0) {
-                processEnv.putAll(runTimeBean.getEnv());
+            Map<String, String> env = runTimeBean.getEnv();
+            if (env == null) {
+                env = new HashMap<String, String>();
             }
+            //进程参数增加REIGN_T_ID变量，方便查找进程
+            env.put("REIGN_T_ID", runTimeBean.getLogId());
+
+            processEnv.putAll(env);
 
             process = processBuilder.start();
 

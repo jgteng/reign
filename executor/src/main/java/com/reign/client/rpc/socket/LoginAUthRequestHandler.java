@@ -2,17 +2,15 @@ package com.reign.client.rpc.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.reign.client.core.SysStatusInfo;
 import com.reign.client.main.StartUp;
 import com.reign.component.constants.MessageTypeConstant;
-import com.reign.domain.rpc.NTMessageProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ji on 15-9-29.
@@ -40,10 +38,7 @@ public class LoginAUthRequestHandler extends ChannelHandlerAdapter {
             switch (message.getInteger("value")) {
                 case MessageTypeConstant.LOGIN_AUTH_SUCCESS:
                     LOGGER.info("So check Login Auth Succeed");
-
-                    //验证连接成功后开始发心跳
-                    ctx.executor().scheduleAtFixedRate(new HeartbeatTask(ctx), 0, 3, TimeUnit.SECONDS);
-
+                    SysStatusInfo.getInstance().setAuthSuccess(true);
                     break;
                 case MessageTypeConstant.LOGIN_AUTH_FAIL:
                     LOGGER.error("Socket Login Auth Fail");
@@ -66,33 +61,5 @@ public class LoginAUthRequestHandler extends ChannelHandlerAdapter {
         jsonObject.put("type", MessageTypeConstant.LOGIN_AUTH_REQ_TYPE);
         jsonObject.put("node", StartUp.nodeName);
         return jsonObject.toJSONString();
-    }
-
-    /**
-     * 发送心跳逻辑
-     */
-    private class HeartbeatTask implements Runnable {
-        private ChannelHandlerContext ctx;
-
-        public HeartbeatTask(ChannelHandlerContext ctx) {
-            this.ctx = ctx;
-        }
-
-        public void run() {
-            String heatBeat = buildHeatBeat();
-            LOGGER.debug("Client send heart beat messsage to server : ---> " + heatBeat);
-            ByteBuf resp = Unpooled.copiedBuffer(heatBeat.getBytes());
-            ctx.writeAndFlush(resp);
-        }
-
-        private String buildHeatBeat() {
-            NTMessageProtocol ntMessageProtocol = new NTMessageProtocol();
-            ntMessageProtocol.setType(MessageTypeConstant.HEART_BEAT_TYPE);
-            JSONObject message = new JSONObject();
-            message.put("node", StartUp.nodeName);
-            ntMessageProtocol.setData(message);
-
-            return ntMessageProtocol.toString();
-        }
     }
 }

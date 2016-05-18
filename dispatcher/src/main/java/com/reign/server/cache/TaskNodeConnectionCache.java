@@ -17,7 +17,7 @@ public class TaskNodeConnectionCache {
     private static final TaskNodeConnectionCache _INSTANCE = new TaskNodeConnectionCache();
 
     private static final ExpireCache<String, Channel> _TASK_NODE_CONNECTION_CACHE = ExpireCache
-            .setExpireTime(60, 0, TimeUnit.SECONDS, false)
+            .setExpireTime(60, 30, TimeUnit.SECONDS, false)
             .build(new ExpireCallBack() {
                 public Object handler(Object key) throws Exception {
                     LOGGER.error("[Disconnect] TaskNode disconnected form NameNode.[taskNode:{}]", key);

@@ -28,6 +28,8 @@ public class CheckTaskStatusHandler {
             Long logId = data.getLong("logId");
             Long taskId = data.getLong("taskId");
 
+            LOGGER.debug("=====【executor】获取任务状态，taskId:{},logId:{}", taskId, logId);
+
             TaskRunStatus taskRunStatus = SqliteDaoFactory.getInstance().getRecentStatusInfoByLogId(logId.toString());
             if (taskRunStatus != null) {
                 NTMessageProtocol ntMessageProtocol = new NTMessageProtocol();
@@ -46,7 +48,7 @@ public class CheckTaskStatusHandler {
                 resultMessage = ntMessageProtocol.toString();
             }
 
-
+            LOGGER.debug("======【executor】返回获取任务状态：{}", resultMessage);
         } catch (Exception e) {
             LOGGER.error("[CheckTaskStatusHandler] error", e);
         }

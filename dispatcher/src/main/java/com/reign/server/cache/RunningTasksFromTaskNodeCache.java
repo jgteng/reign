@@ -22,13 +22,13 @@ public class RunningTasksFromTaskNodeCache {
     private static final RunningTasksFromTaskNodeCache _INSTANCE = new RunningTasksFromTaskNodeCache();
 
     private static final ExpireCache<Long, String> _TASK_CACHE = ExpireCache
-            .setExpireTime(6, 2, TimeUnit.SECONDS, true)
+            .setExpireTime(60, 60, TimeUnit.SECONDS, true)
             .build(new ExpireCallBack() {
                 public Object handler(Object key) {
                     try {
                         Long taskId = (Long) key;
                         String nodeName = _TASK_CACHE.get(taskId);
-                        LOGGER.error("任务状态长时间没有返回，主动向TaskNode查询，任务Id:{},taskNode:{}", taskId, nodeName);
+                        LOGGER.warn("任务状态长时间没有返回，主动向TaskNode查询，任务Id:{},taskNode:{}", taskId, nodeName);
                         Channel channel = TaskNodeConnectionCache.getInstance().getChannel(nodeName);
                         if (channel != null && channel.isActive() && channel.isWritable()) {
                             Task task = TaskCache.getInstance().getTask(taskId);
@@ -39,6 +39,7 @@ public class RunningTasksFromTaskNodeCache {
                                 jsonObject.put("logId", task.getRunLogId());
                                 jsonObject.put("taskId", taskId);
                                 message.setData(jsonObject);
+                                LOGGER.debug("[dispatcher write:{}]", message);
                                 channel.writeAndFlush(message.toString());
                             } else {
                                 LOGGER.error("任务的logId为空，不再获取任务状态，从超时检测列表中移除，taskId:{}", taskId);
