@@ -158,6 +158,10 @@ public class ExpireCache<K, V> {
         return value;
     }
 
+    public boolean containsKey(K key) {
+        return _CACHE_MAP.containsKey(key);
+    }
+
 
     public static void main(String[] args) throws InterruptedException {
         ExpireCache cache = ExpireCache.setExpireTime(10, 5, TimeUnit.SECONDS, true).build();

@@ -68,6 +68,14 @@ public class RunningTasksFromTaskNodeCache {
         _TASK_CACHE.remove(taskId);
     }
 
+    public String get(Long taskId) {
+        return _TASK_CACHE.get(taskId);
+    }
+
+    public boolean containsKey(Long taskId) {
+        return _TASK_CACHE.containsKey(taskId);
+    }
+
     public static void main(String[] args) throws InterruptedException {
         RunningTasksFromTaskNodeCache.getInstance().add(1L, "test");
         for (long i = 3; i < 1000; i++) {

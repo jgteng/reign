@@ -6,6 +6,7 @@ import com.reign.domain.task.Task;
 import com.reign.domain.task.TaskRunLog;
 import com.reign.server.cache.NodeCache;
 import com.reign.server.cache.PipeLineCache;
+import com.reign.server.cache.RunningTasksFromTaskNodeCache;
 import com.reign.server.cache.TaskCache;
 import com.reign.server.dao.DaoFactory;
 import com.reign.server.dao.TaskDao;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ji on 15-9-29.
@@ -42,6 +44,11 @@ public class TaskScanThread extends ThreadTemplate {
     private void allocateTasks(List<Task> taskList) {
         for (Task task : taskList) {
             if (task != null) {
+                boolean isStillRunning = this.doRunningCheck(task);
+                if (isStillRunning) {
+                    LOGGER.warn("Task is still running, can not be run again!!");
+                    continue;
+                }
                 String nodeType = task.getNodeType();
                 if (nodeType.equals(CoreConstant.NODE_TYPE_PHYSICAL)) {
                     //this method will invoke if task allocate on physical node
@@ -54,6 +61,20 @@ public class TaskScanThread extends ThreadTemplate {
                 }
             }
         }
+    }
+
+    /**
+     * check task is still running or not
+     *
+     * @param task
+     * @return running: true, not: false
+     */
+    private boolean doRunningCheck(Task task) {
+        boolean isRunning = false;
+        if (RunningTasksFromTaskNodeCache.getInstance().containsKey(task.getId())) {
+            isRunning = true;
+        }
+        return isRunning;
     }
 
     /**
